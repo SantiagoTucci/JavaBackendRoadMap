@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Java Backend — Guía de estudio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080c10;
+  --surface:#0e1318;
+  --card:#131920;
+  --border:#1e2830;
+  --border-bright:#2a3a48;
+  --text:#d4e0ec;
+  --text-muted:#5a7a94;
+  --text-dim:#2e4456;
+ 
+  --blue:#3b8bd4;   --blue-dim:#0c2236;   --blue-glow:#3b8bd420;
+  --teal:#1d9e75;   --teal-dim:#042018;   --teal-glow:#1d9e7520;
+  --purple:#7f77dd; --purple-dim:#16143a; --purple-glow:#7f77dd20;
+  --amber:#ef9f27;  --amber-dim:#2a1800;  --amber-glow:#ef9f2720;
+  --coral:#d85a30;  --coral-dim:#2a0e00;  --coral-glow:#d85a3020;
+  --green:#639922;  --green-dim:#111e00;  --green-glow:#63992220;
+  --gray:#888780;   --gray-dim:#1a1a18;   --gray-glow:#88878020;
+}
+ 
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  line-height:1.7;
+  min-height:100vh;
+}
+ 
+/* ── SIDEBAR ── */
+#sidebar{
+  position:fixed;top:0;left:0;height:100vh;width:260px;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+  z-index:100;
+  padding:0 0 40px;
+}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:2px}
+ 
+.sidebar-header{
+  padding:28px 24px 20px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--surface);z-index:1;
+}
+.sidebar-title{
+  font-family:'Syne',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-muted);
+}
+.sidebar-brand{
+  font-family:'Syne',sans-serif;
+  font-size:18px;font-weight:800;
+  color:var(--text);margin-top:4px;
+}
+ 
+.nav-section{padding:20px 16px 4px 24px}
+.nav-section-label{
+  font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:8px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:6px;
+  cursor:pointer;
+  font-size:13px;color:var(--text-muted);
+  transition:all .15s;
+  text-decoration:none;
+  border:none;background:none;width:100%;text-align:left;
+}
+.nav-item:hover{background:var(--border);color:var(--text)}
+.nav-item.active{color:var(--text)}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+ 
+/* ── MAIN ── */
+#main{
+  margin-left:260px;
+  padding:60px 64px 100px;
+  max-width:960px;
+}
+ 
+/* ── HERO ── */
+.hero{
+  margin-bottom:72px;
+  padding-bottom:48px;
+  border-bottom:1px solid var(--border);
+}
+.hero-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--teal);letter-spacing:.1em;
+  margin-bottom:16px;
+}
+.hero-title{
+  font-family:'Syne',sans-serif;
+  font-size:48px;font-weight:800;line-height:1.1;
+  color:var(--text);margin-bottom:20px;
+}
+.hero-title span{color:var(--blue)}
+.hero-desc{
+  font-size:16px;color:var(--text-muted);max-width:560px;line-height:1.8;
+}
+.progress-bar-wrap{margin-top:32px}
+.progress-label{font-size:12px;color:var(--text-muted);margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.progress-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:2px;transition:width .5s ease;width:0%}
+ 
+/* ── SECTIONS ── */
+.section{
+  margin-bottom:64px;
+  scroll-margin-top:32px;
+}
+.section-header{
+  display:flex;align-items:flex-start;gap:16px;
+  margin-bottom:32px;
+}
+.section-icon{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:18px;
+  margin-top:2px;
+}
+.section-meta{}
+.section-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.1em;margin-bottom:4px;
+}
+.section-title{
+  font-family:'Syne',sans-serif;
+  font-size:26px;font-weight:700;color:var(--text);
+}
+ 
+/* cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:22px 24px;
+  transition:border-color .2s, transform .2s;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;inset:0;
+  opacity:0;transition:opacity .2s;
+}
+.card:hover{transform:translateY(-2px)}
+.card-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.card-title{
+  font-family:'Syne',sans-serif;
+  font-size:15px;font-weight:700;color:var(--text);
+  margin-bottom:8px;
+}
+.card-desc{font-size:13px;color:var(--text-muted);line-height:1.7}
+.card-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;padding:3px 8px;border-radius:4px;
+}
+ 
+/* expandable detail */
+.card-detail{
+  display:none;margin-top:14px;padding-top:14px;
+  border-top:1px solid var(--border);
+  font-size:13px;color:var(--text-muted);line-height:1.8;
+}
+.card-detail.open{display:block}
+.card-detail code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;background:var(--bg);
+  color:var(--amber);padding:1px 5px;border-radius:3px;
+}
+.card-detail pre{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;background:var(--bg);
+  color:var(--text);padding:14px;border-radius:8px;
+  margin:10px 0;overflow-x:auto;
+  border:1px solid var(--border);line-height:1.6;
+}
+.card-toggle{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--text-dim);
+  margin-top:12px;cursor:pointer;
+  display:inline-block;
+  transition:color .15s;
+}
+.card-toggle:hover{color:var(--text-muted)}
+ 
+/* wide card */
+.card-wide{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:24px;margin-bottom:16px;
+}
+.card-wide-title{
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  color:var(--text);margin-bottom:10px;
+}
+.card-wide-desc{font-size:13px;color:var(--text-muted);line-height:1.8}
+.card-wide-desc code{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  background:var(--bg);color:var(--amber);padding:1px 5px;border-radius:3px;
+}
+ 
+/* color themes per section */
+.t-blue .section-icon{background:var(--blue-dim);color:var(--blue)}
+.t-blue .section-num{color:var(--blue)}
+.t-blue .card{border-color:var(--border)}
+.t-blue .card:hover{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue-glow)}
+.t-blue .card::before{background:var(--blue-glow)}
+.t-blue .card:hover::before{opacity:1}
+.t-blue .card-tag{color:var(--blue)}
+.t-blue .chip{background:var(--blue-dim);color:var(--blue)}
+ 
+.t-teal .section-icon{background:var(--teal-dim);color:var(--teal)}
+.t-teal .section-num{color:var(--teal)}
+.t-teal .card:hover{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal-glow)}
+.t-teal .card::before{background:var(--teal-glow)}
+.t-teal .card:hover::before{opacity:1}
+.t-teal .card-tag{color:var(--teal)}
+.t-teal .chip{background:var(--teal-dim);color:var(--teal)}
+ 
+.t-purple .section-icon{background:var(--purple-dim);color:var(--purple)}
+.t-purple .section-num{color:var(--purple)}
+.t-purple .card:hover{border-color:var(--purple);box-shadow:0 0 0 1px var(--purple-glow)}
+.t-purple .card::before{background:var(--purple-glow)}
+.t-purple .card:hover::before{opacity:1}
+.t-purple .card-tag{color:var(--purple)}
+.t-purple .chip{background:var(--purple-dim);color:var(--purple)}
+ 
+.t-amber .section-icon{background:var(--amber-dim);color:var(--amber)}
+.t-amber .section-num{color:var(--amber)}
+.t-amber .card:hover{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber-glow)}
+.t-amber .card::before{background:var(--amber-glow)}
+.t-amber .card:hover::before{opacity:1}
+.t-amber .card-tag{color:var(--amber)}
+.t-amber .chip{background:var(--amber-dim);color:var(--amber)}
+ 
+.t-coral .section-icon{background:var(--coral-dim);color:var(--coral)}
+.t-coral .section-num{color:var(--coral)}
+.t-coral .card:hover{border-color:var(--coral);box-shadow:0 0 0 1px var(--coral-glow)}
+.t-coral .card::before{background:var(--coral-glow)}
+.t-coral .card:hover::before{opacity:1}
+.t-coral .card-tag{color:var(--coral)}
+.t-coral .chip{background:var(--coral-dim);color:var(--coral)}
+ 
+.t-green .section-icon{background:var(--green-dim);color:var(--green)}
+.t-green .section-num{color:var(--green)}
+.t-green .card:hover{border-color:var(--green);box-shadow:0 0 0 1px var(--green-glow)}
+.t-green .card::before{background:var(--green-glow)}
+.t-green .card:hover::before{opacity:1}
+.t-green .card-tag{color:var(--green)}
+.t-green .chip{background:var(--green-dim);color:var(--green)}
+ 
+.t-gray .section-icon{background:var(--gray-dim);color:var(--gray)}
+.t-gray .section-num{color:var(--gray)}
+.t-gray .card:hover{border-color:var(--gray);box-shadow:0 0 0 1px var(--gray-glow)}
+.t-gray .card::before{background:var(--gray-glow)}
+.t-gray .card:hover::before{opacity:1}
+.t-gray .card-tag{color:var(--gray)}
+.t-gray .chip{background:var(--gray-dim);color:var(--gray)}
+ 
+/* divider */
+.divider{border:none;border-top:1px solid var(--border);margin:56px 0}
+ 
+/* responsive */
+@media(max-width:800px){
+  #sidebar{display:none}
+  #main{margin-left:0;padding:32px 24px 80px}
+  .hero-title{font-size:32px}
+  .cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+ 
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">Guía de estudio</div>
+    <div class="sidebar-brand">Java Backend</div>
+  </div>
+ 
+  <div class="nav-section">
+    <div class="nav-section-label">Base</div>
+    <a class="nav-item" href="#s1"><span class="nav-dot" style="background:var(--blue)"></span>Fundamentos Java</a>
+    <a class="nav-item" href="#s2"><span class="nav-dot" style="background:var(--blue)"></span>Herramientas</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Datos & APIs</div>
+    <a class="nav-item" href="#s3"><span class="nav-dot" style="background:var(--teal)"></span>Bases de datos</a>
+    <a class="nav-item" href="#s4"><span class="nav-dot" style="background:var(--teal)"></span>Diseño de APIs</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Framework</div>
+    <a class="nav-item" href="#s5"><span class="nav-dot" style="background:var(--purple)"></span>Spring Framework</a>
+    <a class="nav-item" href="#s6"><span class="nav-dot" style="background:var(--purple)"></span>Mensajería & caché</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Calidad</div>
+    <a class="nav-item" href="#s7"><span class="nav-dot" style="background:var(--green)"></span>Testing</a>
+    <a class="nav-item" href="#s8"><span class="nav-dot" style="background:var(--green)"></span>Buenas prácticas</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Arquitectura</div>
+    <a class="nav-item" href="#s9"><span class="nav-dot" style="background:var(--amber)"></span>Concurrencia</a>
+    <a class="nav-item" href="#s10"><span class="nav-dot" style="background:var(--amber)"></span>Patrones de diseño</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Avanzado</div>
+    <a class="nav-item" href="#s11"><span class="nav-dot" style="background:var(--coral)"></span>Seguridad</a>
+    <a class="nav-item" href="#s12"><span class="nav-dot" style="background:var(--coral)"></span>Contenedores & CI/CD</a>
+    <a class="nav-item" href="#s13"><span class="nav-dot" style="background:var(--coral)"></span>Observabilidad</a>
+    <a class="nav-item" href="#s14"><span class="nav-dot" style="background:var(--coral)"></span>Microservicios</a>
+    <a class="nav-item" href="#s15"><span class="nav-dot" style="background:var(--coral)"></span>Rendimiento</a>
+    <a class="nav-item" href="#s16"><span class="nav-dot" style="background:var(--coral)"></span>Cloud</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-label">Carrera</div>
+    <a class="nav-item" href="#s17"><span class="nav-dot" style="background:var(--gray)"></span>Soft skills</a>
+  </div>
+</nav>
+ 
+<!-- MAIN -->
+<main id="main">
+ 
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">// java-backend-roadmap · guía completa</div>
+    <h1 class="hero-title">Aprendé<br/><span>Java Backend</span></h1>
+    <p class="hero-desc">Todos los conceptos del roadmap explicados en un solo lugar. Hacé clic en cada tarjeta para ver ejemplos de código y detalles.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-label">// progreso: <span id="prog-count">0</span> / <span id="prog-total">0</span> temas abiertos</div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+    </div>
+  </div>
+ 
+  <!-- ══ 1. FUNDAMENTOS JAVA ══ -->
+  <section class="section t-blue" id="s1">
+    <div class="section-header">
+      <div class="section-icon">☕</div>
+      <div class="section-meta">
+        <div class="section-num">// 01</div>
+        <h2 class="section-title">Fundamentos de Java</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">lenguaje</div>
+        <div class="card-title">Sintaxis y tipos</div>
+        <div class="card-desc">Las bases del lenguaje: tipos primitivos, operadores, control de flujo y arrays.</div>
+        <div class="card-chips">
+          <span class="chip">int · boolean · String</span>
+          <span class="chip">if · for · switch</span>
+        </div>
+        <div class="card-detail">
+          Java diferencia entre <code>tipos primitivos</code> (viven en el stack) y <code>objetos</code> (viven en el heap). Los primitivos son: <code>int</code>, <code>long</code>, <code>double</code>, <code>float</code>, <code>boolean</code>, <code>char</code>, <code>byte</code>, <code>short</code>.
+          <pre>int edad = 25;
+String nombre = "Ana";   // objeto, no primitivo
+boolean activo = true;
+ 
+// autoboxing: Java convierte automáticamente
+Integer edadObj = edad;  // int → Integer</pre>
+          El <code>switch</code> moderno (Java 14+) es más limpio y evita el bug del fall-through accidental. Los arrays tienen tamaño fijo; para tamaño dinámico usás <code>ArrayList</code>.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">POO</div>
+        <div class="card-title">Programación orientada a objetos</div>
+        <div class="card-desc">Clases, herencia, polimorfismo, encapsulamiento e interfaces. La base de todo el ecosistema Java.</div>
+        <div class="card-chips">
+          <span class="chip">extends · implements</span>
+          <span class="chip">abstract · interface</span>
+        </div>
+        <div class="card-detail">
+          Los cuatro pilares: <b>encapsulamiento</b> (getters/setters, modificadores de acceso), <b>herencia</b> (<code>extends</code>), <b>polimorfismo</b> (un objeto puede comportarse como su padre o interfaz), <b>abstracción</b> (interfaces y clases abstractas).
+          <pre>public interface Vehiculo {
+    void arrancar();
+    default void detener() { /* impl por defecto */ }
+}
+ 
+public class Auto extends Vehiculo {
+    private String marca;  // encapsulamiento
+ 
+    @Override
+    public void arrancar() {
+        System.out.println("Arrancando " + marca);
+    }
+}</pre>
+          Preferí <b>composición sobre herencia</b>. La herencia crea acoplamiento fuerte; las interfaces dan flexibilidad.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">colecciones</div>
+        <div class="card-title">Collections Framework</div>
+        <div class="card-desc">List, Map, Set y Queue. Elegir la estructura correcta impacta directamente el rendimiento.</div>
+        <div class="card-chips">
+          <span class="chip">ArrayList · HashMap</span>
+          <span class="chip">HashSet · TreeMap</span>
+        </div>
+        <div class="card-detail">
+          <b>List:</b> <code>ArrayList</code> → acceso O(1), inserciones lentas al medio. <code>LinkedList</code> → inserciones O(1), acceso O(n).<br/>
+          <b>Map:</b> <code>HashMap</code> → búsqueda O(1). <code>TreeMap</code> → ordenado, O(log n). <code>LinkedHashMap</code> → mantiene orden de inserción.<br/>
+          <b>Set:</b> <code>HashSet</code> → unicidad, O(1). <code>TreeSet</code> → ordenado.<br/>
+          <pre>Map&lt;String, Integer&gt; precios = new HashMap&lt;&gt;();
+precios.put("café", 350);
+precios.getOrDefault("agua", 0);  // evita NPE
+ 
+List&lt;String&gt; nombres = List.of("Ana","Bob"); // inmutable (Java 9+)
+List&lt;String&gt; copia   = new ArrayList&lt;&gt;(nombres); // mutable</pre>
+          Usá <code>List.of()</code> y <code>Map.of()</code> para colecciones de solo lectura. Son más rápidas y seguras.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">java moderno</div>
+        <div class="card-title">Lambdas & Streams</div>
+        <div class="card-desc">Procesar colecciones de forma declarativa. Reemplazan los loops imperativos por cadenas legibles.</div>
+        <div class="card-chips">
+          <span class="chip">filter · map · collect</span>
+          <span class="chip">reduce · flatMap</span>
+        </div>
+        <div class="card-detail">
+          Los Streams no modifican la colección original. Son lazy: no se evalúan hasta que hay una operación terminal (<code>collect</code>, <code>count</code>, <code>findFirst</code>).
+          <pre>List&lt;String&gt; resultado = usuarios.stream()
+    .filter(u -&gt; u.getEdad() &gt;= 18)
+    .map(Usuario::getNombre)       // method reference
+    .sorted()
+    .collect(Collectors.toList());
+ 
+// groupBy: muy útil en backend
+Map&lt;String, List&lt;Pedido&gt;&gt; porCiudad = pedidos.stream()
+    .collect(Collectors.groupingBy(Pedido::getCiudad));</pre>
+          Usá <code>parallelStream()</code> con cuidado: solo vale la pena con colecciones muy grandes y operaciones CPU-intensivas.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">java moderno</div>
+        <div class="card-title">Optional, Records & Generics</div>
+        <div class="card-desc">Herramientas para código más seguro, expresivo y reutilizable.</div>
+        <div class="card-chips">
+          <span class="chip">Optional&lt;T&gt;</span>
+          <span class="chip">record · &lt;T extends&gt;</span>
+        </div>
+        <div class="card-detail">
+          <b>Optional</b>: evitá el <code>== null</code> explícito. Hacé visible en la firma que algo puede no existir.
+          <pre>Optional&lt;Usuario&gt; user = repo.findById(id);
+String nombre = user.map(Usuario::getNombre)
+                    .orElse("Anónimo");</pre>
+          <b>Records</b> (Java 16+): clases inmutables de datos sin boilerplate. Perfectas para DTOs.
+          <pre>record ProductoDTO(String nombre, double precio) {}
+// genera: constructor, getters, equals, hashCode, toString</pre>
+          <b>Generics</b>: escribís código que funciona con cualquier tipo, con validación en compilación.
+          <pre>public &lt;T&gt; ApiResponse&lt;T&gt; ok(T data) {
+    return new ApiResponse&lt;&gt;(200, data);
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">excepciones</div>
+        <div class="card-title">Manejo de excepciones</div>
+        <div class="card-desc">Checked vs unchecked, try-with-resources y cómo diseñar excepciones propias.</div>
+        <div class="card-chips">
+          <span class="chip">try · catch · finally</span>
+          <span class="chip">RuntimeException</span>
+        </div>
+        <div class="card-detail">
+          <b>Checked</b>: el compilador obliga a manejarlas (ej: <code>IOException</code>). <b>Unchecked</b>: subclases de <code>RuntimeException</code>, no obligatorio manejarlas (ej: <code>NullPointerException</code>).<br/><br/>
+          En backend moderno se prefiere unchecked para no contaminar las firmas de los métodos:
+          <pre>// Excepción de dominio propia
+public class UsuarioNoEncontradoException extends RuntimeException {
+    public UsuarioNoEncontradoException(Long id) {
+        super("Usuario no encontrado: " + id);
+    }
+}
+ 
+// try-with-resources: cierra automáticamente
+try (InputStream is = new FileInputStream("data.txt")) {
+    // usar is
+} // se cierra solo aunque haya excepción</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 2. HERRAMIENTAS ══ -->
+  <section class="section t-blue" id="s2">
+    <div class="section-header">
+      <div class="section-icon">🔧</div>
+      <div class="section-meta">
+        <div class="section-num">// 02</div>
+        <h2 class="section-title">Herramientas esenciales</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">build</div>
+        <div class="card-title">Maven & Gradle</div>
+        <div class="card-desc">Gestión de dependencias y automatización del build. Maven usa XML, Gradle usa Groovy/Kotlin DSL.</div>
+        <div class="card-chips"><span class="chip">pom.xml</span><span class="chip">build.gradle</span></div>
+        <div class="card-detail">
+          <b>Maven</b> es más verbose pero predecible. <b>Gradle</b> es más rápido (caché incremental) y flexible. Spring Initializr genera proyectos con cualquiera de los dos.
+          <pre>// Maven: agregar dependencia en pom.xml
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+ 
+// Gradle: en build.gradle
+implementation 'org.springframework.boot:spring-boot-starter-web'</pre>
+          Comandos clave: <code>mvn clean install</code>, <code>mvn test</code>. Con Gradle: <code>./gradlew build</code>, <code>./gradlew test</code>.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">control de versiones</div>
+        <div class="card-title">Git</div>
+        <div class="card-desc">Control de versiones distribuido. Fundamental para trabajar en equipo y para CI/CD.</div>
+        <div class="card-chips"><span class="chip">branch · merge · rebase</span><span class="chip">pull request</span></div>
+        <div class="card-detail">
+          Lo que más se usa en el día a día:
+          <pre>git checkout -b feature/nuevo-endpoint  # nueva rama
+git add . && git commit -m "feat: agregar endpoint usuarios"
+git push origin feature/nuevo-endpoint  # subir al remoto
+git pull --rebase origin main           # traer cambios</pre>
+          Convención de commits: <code>feat:</code>, <code>fix:</code>, <code>chore:</code>, <code>docs:</code>. El flujo habitual es <b>GitHub Flow</b>: todo en ramas cortas que se mergean a main via Pull Request con code review.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">runtime</div>
+        <div class="card-title">JVM internals</div>
+        <div class="card-desc">Entender cómo la JVM gestiona memoria y ejecuta tu código te ayuda a depurar y optimizar.</div>
+        <div class="card-chips"><span class="chip">heap · stack · GC</span><span class="chip">bytecode · classloader</span></div>
+        <div class="card-detail">
+          <b>Heap</b>: donde viven los objetos. Se divide en Young Generation y Old Generation. El <b>Garbage Collector</b> libera memoria automáticamente. <b>Stack</b>: frames de llamadas a métodos, variables locales.<br/><br/>
+          Lo que necesitás saber para el día a día: <code>OutOfMemoryError</code> = el heap se llenó → revisá memory leaks. <code>StackOverflowError</code> = recursión infinita. El flag <code>-Xmx512m</code> limita el heap máximo a 512 MB.
+          <pre># Configurar JVM en Spring Boot
+java -Xms256m -Xmx512m -jar mi-app.jar</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 3. BASES DE DATOS ══ -->
+  <section class="section t-teal" id="s3">
+    <div class="section-header">
+      <div class="section-icon">🗄️</div>
+      <div class="section-meta">
+        <div class="section-num">// 03</div>
+        <h2 class="section-title">Bases de datos</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">relacional</div>
+        <div class="card-title">SQL & PostgreSQL</div>
+        <div class="card-desc">El lenguaje universal para consultar bases de datos relacionales. PostgreSQL es el estándar de la industria.</div>
+        <div class="card-chips"><span class="chip">SELECT · JOIN · INDEX</span><span class="chip">ACID · transacciones</span></div>
+        <div class="card-detail">
+          Dominá: <code>SELECT</code> con <code>JOIN</code>, subconsultas, <code>GROUP BY</code>, <code>ORDER BY</code>, índices y transacciones.
+          <pre>-- Query típica en backend
+SELECT u.nombre, COUNT(p.id) AS total_pedidos
+FROM usuarios u
+LEFT JOIN pedidos p ON u.id = p.usuario_id
+WHERE u.activo = true
+GROUP BY u.id
+HAVING COUNT(p.id) > 5
+ORDER BY total_pedidos DESC;</pre>
+          Los <b>índices</b> aceleran las búsquedas pero enlentecen las escrituras. Ponelos en columnas que usás en <code>WHERE</code> y <code>JOIN</code>. Las <b>transacciones</b> garantizan ACID: Atomicity, Consistency, Isolation, Durability.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">ORM</div>
+        <div class="card-title">JPA & Hibernate</div>
+        <div class="card-desc">Mapear objetos Java a tablas de base de datos. JPA es la especificación, Hibernate la implementación más usada.</div>
+        <div class="card-chips"><span class="chip">@Entity · @Repository</span><span class="chip">JPQL · Criteria API</span></div>
+        <div class="card-detail">
+          <pre>@Entity
+@Table(name = "usuarios")
+public class Usuario {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+ 
+    @Column(nullable = false, unique = true)
+    private String email;
+ 
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private List&lt;Pedido&gt; pedidos;
+}</pre>
+          Cuidado con el <b>N+1 problem</b>: si cargás una lista y accedés a la relación de cada elemento, generás N consultas extra. Solución: <code>@EntityGraph</code> o <code>JOIN FETCH</code> en JPQL. Usá <code>FetchType.LAZY</code> por defecto.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">migraciones</div>
+        <div class="card-title">Flyway & Liquibase</div>
+        <div class="card-desc">Control de versiones para el esquema de la base de datos. Imprescindible en equipos y CI/CD.</div>
+        <div class="card-chips"><span class="chip">V1__init.sql</span><span class="chip">migration scripts</span></div>
+        <div class="card-detail">
+          En lugar de modificar la DB a mano, escribís scripts de migración versionados que se ejecutan automáticamente al iniciar la app.
+          <pre>-- V1__crear_tabla_usuarios.sql
+CREATE TABLE usuarios (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+ 
+-- V2__agregar_columna_activo.sql
+ALTER TABLE usuarios ADD COLUMN activo BOOLEAN DEFAULT true;</pre>
+          Spring Boot + Flyway se integran sin configuración extra. Los scripts nunca se modifican una vez ejecutados.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 4. APIs ══ -->
+  <section class="section t-teal" id="s4">
+    <div class="section-header">
+      <div class="section-icon">🔌</div>
+      <div class="section-meta">
+        <div class="section-num">// 04</div>
+        <h2 class="section-title">Diseño de APIs</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">protocolo</div>
+        <div class="card-title">REST & HTTP</div>
+        <div class="card-desc">El estilo arquitectónico más usado para APIs web. Se basa en recursos, métodos HTTP y códigos de estado.</div>
+        <div class="card-chips"><span class="chip">GET·POST·PUT·DELETE</span><span class="chip">200·201·400·404·500</span></div>
+        <div class="card-detail">
+          Reglas de oro de REST: los endpoints son <b>sustantivos</b> (no verbos), los métodos HTTP definen la acción.
+          <pre>GET    /usuarios          → listar usuarios
+GET    /usuarios/{id}     → obtener uno
+POST   /usuarios          → crear (body con datos)
+PUT    /usuarios/{id}     → reemplazar completo
+PATCH  /usuarios/{id}     → actualizar parcial
+DELETE /usuarios/{id}     → eliminar</pre>
+          Códigos importantes: <code>200 OK</code>, <code>201 Created</code>, <code>204 No Content</code>, <code>400 Bad Request</code>, <code>401 Unauthorized</code>, <code>403 Forbidden</code>, <code>404 Not Found</code>, <code>409 Conflict</code>, <code>500 Internal Server Error</code>.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">documentación</div>
+        <div class="card-title">OpenAPI / Swagger</div>
+        <div class="card-desc">Estándar para documentar APIs REST. Genera documentación interactiva automáticamente desde el código.</div>
+        <div class="card-chips"><span class="chip">springdoc-openapi</span><span class="chip">@Operation · @Schema</span></div>
+        <div class="card-detail">
+          Con <code>springdoc-openapi</code> en Spring Boot, la documentación se genera sola en <code>/swagger-ui.html</code>. Podés enriquecerla con anotaciones:
+          <pre>@Operation(summary = "Crear usuario",
+           description = "Crea un nuevo usuario y retorna el ID generado")
+@ApiResponse(responseCode = "201", description = "Creado exitosamente")
+@PostMapping("/usuarios")
+public ResponseEntity&lt;UsuarioDTO&gt; crear(@Valid @RequestBody CrearUsuarioDTO dto) {
+    // ...
+}</pre>
+          También sirve para generar clientes en otros lenguajes automáticamente con OpenAPI Generator.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">transferencia de datos</div>
+        <div class="card-title">DTOs & validación</div>
+        <div class="card-desc">Separar los objetos de dominio de lo que se expone en la API. Validar entradas con Bean Validation.</div>
+        <div class="card-chips"><span class="chip">@Valid · @NotNull</span><span class="chip">@Size · @Email</span></div>
+        <div class="card-detail">
+          Nunca expongas tus entidades JPA directamente en la API. Usá DTOs (Data Transfer Objects):
+          <pre>// DTO de entrada
+public record CrearUsuarioDTO(
+    @NotBlank @Email String email,
+    @NotBlank @Size(min=2, max=100) String nombre,
+    @Min(18) int edad
+) {}
+ 
+// Spring valida automáticamente con @Valid en el controller
+@PostMapping
+public ResponseEntity&lt;?&gt; crear(@Valid @RequestBody CrearUsuarioDTO dto) {
+    // si falla la validación, retorna 400 automáticamente
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 5. SPRING ══ -->
+  <section class="section t-purple" id="s5">
+    <div class="section-header">
+      <div class="section-icon">🌱</div>
+      <div class="section-meta">
+        <div class="section-num">// 05</div>
+        <h2 class="section-title">Spring Framework</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">núcleo</div>
+        <div class="card-title">Spring Core & DI</div>
+        <div class="card-desc">Inversión de control (IoC) e inyección de dependencias. Spring crea y gestiona tus objetos por vos.</div>
+        <div class="card-chips"><span class="chip">@Component · @Bean</span><span class="chip">@Autowired · @Qualifier</span></div>
+        <div class="card-detail">
+          En vez de hacer <code>new MiServicio()</code>, Spring crea y provee los objetos (beans). Esto facilita el testing y desacoplamiento.
+          <pre>@Service  // le dice a Spring que este es un bean
+public class UsuarioService {
+    private final UsuarioRepository repo;
+ 
+    // inyección por constructor (preferida sobre @Autowired en campo)
+    public UsuarioService(UsuarioRepository repo) {
+        this.repo = repo;
+    }
+}</pre>
+          Scopes de beans: <code>singleton</code> (default, una instancia), <code>prototype</code> (nueva instancia cada vez), <code>request</code> / <code>session</code> (en apps web).
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">web</div>
+        <div class="card-title">Spring Boot & MVC</div>
+        <div class="card-desc">Boot = Spring preconfigurado. MVC = patrón para construir APIs y apps web con controladores.</div>
+        <div class="card-chips"><span class="chip">@RestController</span><span class="chip">@RequestMapping</span></div>
+        <div class="card-detail">
+          Spring Boot elimina el XML de configuración. Con autoconfiguration, detecta las dependencias y configura solo.
+          <pre>@RestController
+@RequestMapping("/api/v1/usuarios")
+public class UsuarioController {
+ 
+    @GetMapping("/{id}")
+    public ResponseEntity&lt;UsuarioDTO&gt; obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+ 
+    @PostMapping
+    public ResponseEntity&lt;UsuarioDTO&gt; crear(@Valid @RequestBody CrearUsuarioDTO dto) {
+        UsuarioDTO creado = service.crear(dto);
+        URI location = URI.create("/api/v1/usuarios/" + creado.id());
+        return ResponseEntity.created(location).body(creado);
+    }
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">datos</div>
+        <div class="card-title">Spring Data JPA</div>
+        <div class="card-desc">Elimina el boilerplate de JPA. Generá consultas solo con el nombre del método.</div>
+        <div class="card-chips"><span class="chip">JpaRepository</span><span class="chip">@Query · findBy</span></div>
+        <div class="card-detail">
+          <pre>public interface UsuarioRepository extends JpaRepository&lt;Usuario, Long&gt; {
+    // Spring genera la query automáticamente
+    List&lt;Usuario&gt; findByActivoTrueAndEdadGreaterThan(int edad);
+ 
+    // O podés escribir JPQL
+    @Query("SELECT u FROM Usuario u WHERE u.email = :email")
+    Optional&lt;Usuario&gt; findByEmail(@Param("email") String email);
+ 
+    // Para paginación
+    Page&lt;Usuario&gt; findAll(Pageable pageable);
+}</pre>
+          <code>JpaRepository</code> ya te da: <code>save()</code>, <code>findById()</code>, <code>findAll()</code>, <code>delete()</code>, <code>count()</code>, y soporte para paginación y ordenamiento.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">seguridad</div>
+        <div class="card-title">Spring Security</div>
+        <div class="card-desc">Framework de seguridad para autenticación y autorización. Muy configurable.</div>
+        <div class="card-chips"><span class="chip">@PreAuthorize</span><span class="chip">SecurityFilterChain</span></div>
+        <div class="card-detail">
+          <pre>@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+ 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+    }
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 6. MENSAJERÍA & CACHÉ ══ -->
+  <section class="section t-purple" id="s6">
+    <div class="section-header">
+      <div class="section-icon">📨</div>
+      <div class="section-meta">
+        <div class="section-num">// 06</div>
+        <h2 class="section-title">Mensajería & caché</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">async</div>
+        <div class="card-title">Apache Kafka</div>
+        <div class="card-desc">Plataforma de streaming de eventos. Para comunicación asíncrona entre servicios y procesamiento de flujos.</div>
+        <div class="card-chips"><span class="chip">producer · consumer</span><span class="chip">topic · partition</span></div>
+        <div class="card-detail">
+          Kafka almacena mensajes en <b>topics</b> divididos en <b>partitions</b>. Los <b>producers</b> publican, los <b>consumers</b> leen. Los mensajes persisten (no se eliminan al consumirse, a diferencia de RabbitMQ).
+          <pre>// Publicar un evento
+@Service
+public class PedidoService {
+    @Autowired KafkaTemplate&lt;String, PedidoEvent&gt; kafka;
+ 
+    public void procesarPedido(Pedido pedido) {
+        kafka.send("pedidos-creados", new PedidoEvent(pedido.getId()));
+    }
+}
+ 
+// Consumir
+@KafkaListener(topics = "pedidos-creados", groupId = "notificaciones")
+public void onPedido(PedidoEvent event) {
+    notificacionService.enviar(event.getPedidoId());
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">caché</div>
+        <div class="card-title">Redis</div>
+        <div class="card-desc">Base de datos en memoria ultra rápida. Úsala para cachear respuestas, sesiones y contadores.</div>
+        <div class="card-chips"><span class="chip">@Cacheable · TTL</span><span class="chip">String · Hash · Set</span></div>
+        <div class="card-detail">
+          Redis guarda datos en memoria (microsegundos de latencia). Puede usarse con Spring Cache de forma transparente:
+          <pre>@Service
+public class ProductoService {
+    // cachea el resultado. Si se llama de nuevo con el mismo id,
+    // retorna del caché sin ir a la DB
+    @Cacheable(value = "productos", key = "#id")
+    public ProductoDTO findById(Long id) {
+        return repo.findById(id).map(this::toDTO).orElseThrow();
+    }
+ 
+    // invalida el caché cuando se actualiza
+    @CacheEvict(value = "productos", key = "#id")
+    public void actualizar(Long id, ProductoDTO dto) { ... }
+}</pre>
+          También usás Redis directamente para: rate limiting, locks distribuidos, pub/sub simple y sesiones compartidas entre instancias.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">mensajería</div>
+        <div class="card-title">RabbitMQ</div>
+        <div class="card-desc">Message broker tradicional. Colas, exchanges y bindings para distribuir trabajo entre consumidores.</div>
+        <div class="card-chips"><span class="chip">Queue · Exchange</span><span class="chip">@RabbitListener</span></div>
+        <div class="card-detail">
+          RabbitMQ es más simple que Kafka para casos de uso tradicionales: tareas en background, emails, notificaciones. El mensaje se elimina cuando se procesa.
+          <pre>// Enviar tarea a la cola
+rabbitTemplate.convertAndSend("emails-queue", new EmailTask(destinatario));
+ 
+// Procesar en background
+@RabbitListener(queues = "emails-queue")
+public void procesarEmail(EmailTask task) {
+    emailService.enviar(task.getDestinatario());
+}</pre>
+          Elegí <b>Kafka</b> si necesitás replay de eventos, alta throughput o event sourcing. Elegí <b>RabbitMQ</b> para tareas simples en background y routing complejo de mensajes.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 7. TESTING ══ -->
+  <section class="section t-green" id="s7">
+    <div class="section-header">
+      <div class="section-icon">🧪</div>
+      <div class="section-meta">
+        <div class="section-num">// 07</div>
+        <h2 class="section-title">Testing</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">unitario</div>
+        <div class="card-title">JUnit 5 & Mockito</div>
+        <div class="card-desc">JUnit para estructurar tests, Mockito para simular dependencias (mocks). La combinación más usada en Java.</div>
+        <div class="card-chips"><span class="chip">@Test · @Mock</span><span class="chip">when · verify · assert</span></div>
+        <div class="card-detail">
+          <pre>@ExtendWith(MockitoExtension.class)
+class UsuarioServiceTest {
+ 
+    @Mock UsuarioRepository repo;
+    @InjectMocks UsuarioService service;
+ 
+    @Test
+    void deberiaRetornarUsuarioCuandoExiste() {
+        // Arrange
+        var usuario = new Usuario(1L, "Ana", "ana@mail.com");
+        when(repo.findById(1L)).thenReturn(Optional.of(usuario));
+ 
+        // Act
+        var resultado = service.findById(1L);
+ 
+        // Assert
+        assertThat(resultado.nombre()).isEqualTo("Ana");
+        verify(repo, times(1)).findById(1L);
+    }
+}</pre>
+          Usá <code>AssertJ</code> en vez de las assertions de JUnit: son más legibles y tienen mejor autocompletado.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">integración</div>
+        <div class="card-title">Testcontainers</div>
+        <div class="card-desc">Levantá una DB real en Docker durante los tests de integración. Sin H2, sin mocks de infraestructura.</div>
+        <div class="card-chips"><span class="chip">@Testcontainers</span><span class="chip">PostgreSQLContainer</span></div>
+        <div class="card-detail">
+          H2 (DB en memoria) es diferente a PostgreSQL y puede esconder bugs. Testcontainers levanta el contenedor real:
+          <pre>@SpringBootTest
+@Testcontainers
+class UsuarioRepositoryTest {
+ 
+    @Container
+    static PostgreSQLContainer&lt;?&gt; postgres =
+        new PostgreSQLContainer&lt;&gt;("postgres:15")
+            .withDatabaseName("testdb");
+ 
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+    }
+ 
+    @Test
+    void deberiaGuardarYRecuperarUsuario() {
+        // test con PostgreSQL real
+    }
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">spring</div>
+        <div class="card-title">Tests de controllers</div>
+        <div class="card-desc">Testear la capa HTTP sin levantar el servidor completo con MockMvc.</div>
+        <div class="card-chips"><span class="chip">@WebMvcTest</span><span class="chip">MockMvc · perform</span></div>
+        <div class="card-detail">
+          <pre>@WebMvcTest(UsuarioController.class)
+class UsuarioControllerTest {
+ 
+    @Autowired MockMvc mvc;
+    @MockBean UsuarioService service;
+ 
+    @Test
+    void deberiaRetornar404CuandoNoExiste() throws Exception {
+        when(service.findById(99L)).thenThrow(new UsuarioNoEncontradoException(99L));
+ 
+        mvc.perform(get("/api/v1/usuarios/99"))
+           .andExpect(status().isNotFound())
+           .andExpect(jsonPath("$.mensaje").value("Usuario no encontrado: 99"));
+    }
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 8. BUENAS PRÁCTICAS ══ -->
+  <section class="section t-green" id="s8">
+    <div class="section-header">
+      <div class="section-icon">✅</div>
+      <div class="section-meta">
+        <div class="section-num">// 08</div>
+        <h2 class="section-title">Buenas prácticas</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">código</div>
+        <div class="card-title">Clean Code</div>
+        <div class="card-desc">Principios para escribir código legible, mantenible y que otros puedan entender.</div>
+        <div class="card-chips"><span class="chip">nombres descriptivos</span><span class="chip">funciones pequeñas</span></div>
+        <div class="card-detail">
+          Reglas más impactantes: <b>nombres que explican la intención</b> (<code>calcularDescuento()</code> no <code>calc()</code>), <b>funciones pequeñas con una sola responsabilidad</b>, <b>no comentar lo obvio</b> (el código debe explicarse solo), <b>evitar números mágicos</b> (usá constantes nombradas).
+          <pre>// MAL
+if (u.getStatus() == 2) { ... }
+ 
+// BIEN
+if (usuario.estaBloqueado()) { ... }
+ 
+// MAL
+public void process(List&lt;Object&gt; data) { /* 200 líneas */ }
+ 
+// BIEN: cada método hace una cosa
+public void procesarPedidos(List&lt;Pedido&gt; pedidos) {
+    validarPedidos(pedidos);
+    calcularTotales(pedidos);
+    notificarClientes(pedidos);
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">proceso</div>
+        <div class="card-title">12-Factor App</div>
+        <div class="card-desc">Metodología para construir apps web modernas, escalables y fáciles de desplegar en la nube.</div>
+        <div class="card-chips"><span class="chip">config · logs · stateless</span><span class="chip">dev/prod parity</span></div>
+        <div class="card-detail">
+          Los 12 factores más relevantes para Java backend:
+          <br/><br/>
+          <b>Config en variables de entorno</b>: nunca hardcodees URLs, passwords o API keys en el código.
+          <pre># application.yml usa variables de entorno
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}</pre>
+          <b>Logs como streams</b>: escribí a stdout, la infraestructura se encarga de colectar. <b>Procesos stateless</b>: no guardes estado en memoria entre requests (usá Redis para sesiones). <b>Dev/prod parity</b>: usá Docker para tener el mismo entorno en todos lados.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">equipo</div>
+        <div class="card-title">Code review & Javadoc</div>
+        <div class="card-desc">Revisión de código entre pares y documentación de APIs públicas.</div>
+        <div class="card-chips"><span class="chip">Pull Request</span><span class="chip">@param · @return</span></div>
+        <div class="card-detail">
+          En un code review buscás: correctitud, legibilidad, tests, seguridad y rendimiento. Sé constructivo y específico.
+          <pre>/**
+ * Calcula el descuento aplicable para un usuario según su categoría.
+ *
+ * @param usuario el usuario para quien se calcula el descuento
+ * @param monto   el monto base antes del descuento
+ * @return el porcentaje de descuento (0.0 a 1.0)
+ * @throws UsuarioInvalidoException si el usuario no está activo
+ */
+public double calcularDescuento(Usuario usuario, BigDecimal monto) { ... }</pre>
+          Documentá con Javadoc las clases y métodos públicos de tu API interna. Para APIs REST, OpenAPI es suficiente.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 9. CONCURRENCIA ══ -->
+  <section class="section t-amber" id="s9">
+    <div class="section-header">
+      <div class="section-icon">⚡</div>
+      <div class="section-meta">
+        <div class="section-num">// 09</div>
+        <h2 class="section-title">Concurrencia</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">threads</div>
+        <div class="card-title">Threads & ExecutorService</div>
+        <div class="card-desc">Ejecutar tareas en paralelo. ExecutorService gestiona un pool de threads para no crear uno por tarea.</div>
+        <div class="card-chips"><span class="chip">ExecutorService</span><span class="chip">ThreadPoolExecutor</span></div>
+        <div class="card-detail">
+          Nunca uses <code>new Thread()</code> directamente en producción. Usá un pool:
+          <pre>ExecutorService pool = Executors.newFixedThreadPool(10);
+ 
+Future&lt;String&gt; future = pool.submit(() -> {
+    // tarea que tarda
+    return llamadaExterna();
+});
+ 
+String resultado = future.get(); // bloquea hasta tener resultado
+pool.shutdown();</pre>
+          <code>@Async</code> de Spring es la forma más simple en una app Spring Boot: anota un método y se ejecuta en un thread del pool configurado.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">async moderno</div>
+        <div class="card-title">CompletableFuture</div>
+        <div class="card-desc">API moderna para programación asíncrona y encadenar operaciones sin bloquear threads.</div>
+        <div class="card-chips"><span class="chip">thenApply · thenCompose</span><span class="chip">allOf · anyOf</span></div>
+        <div class="card-detail">
+          <pre>// Llamadas en paralelo y combinar resultados
+CompletableFuture&lt;Usuario&gt; userFuture = CompletableFuture
+    .supplyAsync(() -> userService.findById(id));
+ 
+CompletableFuture&lt;List&lt;Pedido&gt;&gt; pedidosFuture = CompletableFuture
+    .supplyAsync(() -> pedidoService.findByUsuario(id));
+ 
+// Esperar ambos y combinar
+CompletableFuture.allOf(userFuture, pedidosFuture).join();
+ 
+Usuario user = userFuture.get();
+List&lt;Pedido&gt; pedidos = pedidosFuture.get();
+// Ambas llamadas corrieron en paralelo ✓</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">reactive</div>
+        <div class="card-title">Programación reactiva</div>
+        <div class="card-desc">Manejar streams de datos asíncronos con backpressure. Spring WebFlux y Project Reactor.</div>
+        <div class="card-chips"><span class="chip">Mono · Flux</span><span class="chip">WebFlux · R2DBC</span></div>
+        <div class="card-detail">
+          Reactivo es útil cuando tenés muchas operaciones I/O concurrentes (miles de requests) y no querés bloquear threads.
+          <pre>// Mono = 0 o 1 elemento. Flux = 0 o N elementos.
+@GetMapping("/usuarios/{id}")
+public Mono&lt;UsuarioDTO&gt; obtener(@PathVariable Long id) {
+    return repo.findById(id)           // retorna Mono&lt;Usuario&gt;
+               .map(this::toDTO)       // transforma
+               .switchIfEmpty(Mono.error(new NotFoundException()));
+}</pre>
+          Empezá con Spring MVC tradicional. Migrá a WebFlux solo si tenés un caso de uso claro (alta concurrencia I/O, streaming de datos).
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 10. PATRONES ══ -->
+  <section class="section t-amber" id="s10">
+    <div class="section-header">
+      <div class="section-icon">🏗️</div>
+      <div class="section-meta">
+        <div class="section-num">// 10</div>
+        <h2 class="section-title">Patrones de diseño</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">principios</div>
+        <div class="card-title">SOLID</div>
+        <div class="card-desc">Cinco principios para diseñar código orientado a objetos mantenible y extensible.</div>
+        <div class="card-chips"><span class="chip">SRP · OCP · LSP</span><span class="chip">ISP · DIP</span></div>
+        <div class="card-detail">
+          <b>S</b> — Single Responsibility: cada clase tiene un único motivo para cambiar.<br/>
+          <b>O</b> — Open/Closed: abierto para extensión, cerrado para modificación (usá interfaces).<br/>
+          <b>L</b> — Liskov Substitution: podés usar una subclase donde se espera la clase padre sin romper nada.<br/>
+          <b>I</b> — Interface Segregation: interfaces pequeñas y específicas, no una enorme.<br/>
+          <b>D</b> — Dependency Inversion: dependé de abstracciones (interfaces), no de implementaciones concretas.
+          <pre>// DIP en acción: el servicio depende de la interfaz, no de la clase concreta
+public class NotificacionService {
+    private final NotificacionSender sender; // interfaz
+ 
+    // Podés inyectar EmailSender, SmsSender, etc. sin cambiar el servicio
+    public NotificacionService(NotificacionSender sender) {
+        this.sender = sender;
+    }
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">GoF</div>
+        <div class="card-title">Patrones GoF más usados</div>
+        <div class="card-desc">Los patrones clásicos del Gang of Four que aparecen constantemente en proyectos Java.</div>
+        <div class="card-chips"><span class="chip">Builder · Factory</span><span class="chip">Strategy · Observer</span></div>
+        <div class="card-detail">
+          <b>Builder</b>: construir objetos complejos paso a paso (Lombok <code>@Builder</code>).<br/>
+          <b>Factory / Factory Method</b>: delegar la creación de objetos.<br/>
+          <b>Strategy</b>: intercambiar algoritmos en runtime.
+          <pre>// Strategy: diferentes formas de calcular descuento
+public interface DescuentoStrategy { double calcular(double precio); }
+public class DescuentoVIP implements DescuentoStrategy { ... }
+public class DescuentoEstudiante implements DescuentoStrategy { ... }
+ 
+// En el servicio, inyectás la strategy que corresponda</pre>
+          <b>Observer</b>: los Spring Application Events son Observer nativo.<br/>
+          <b>Decorator</b>: agregar comportamiento sin herencia (ej: logging alrededor de un servicio).
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">arquitectura</div>
+        <div class="card-title">Arquitectura hexagonal</div>
+        <div class="card-desc">Aislar la lógica de negocio de los detalles de infraestructura (DB, HTTP, mensajería).</div>
+        <div class="card-chips"><span class="chip">domain · ports · adapters</span><span class="chip">use cases</span></div>
+        <div class="card-detail">
+          El core de negocio (<b>domain</b>) no depende de Spring, JPA ni HTTP. Los <b>ports</b> son interfaces que el dominio define. Los <b>adapters</b> implementan esas interfaces (el controller es un adapter de entrada, el repository es un adapter de salida).
+          <pre>// Puerto de salida (interfaz definida por el dominio)
+public interface UsuarioRepository {
+    Optional&lt;Usuario&gt; findById(UsuarioId id);
+    void save(Usuario usuario);
+}
+ 
+// Adapter de salida (infraestructura, implementa el puerto)
+@Repository
+public class UsuarioJpaAdapter implements UsuarioRepository {
+    // aquí vive la implementación con JPA
+}</pre>
+          Esto hace que el dominio sea testeable sin Spring ni DB. Es más complejo, ideal para proyectos grandes.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 11. SEGURIDAD ══ -->
+  <section class="section t-coral" id="s11">
+    <div class="section-header">
+      <div class="section-icon">🔐</div>
+      <div class="section-meta">
+        <div class="section-num">// 11</div>
+        <h2 class="section-title">Seguridad</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">autenticación</div>
+        <div class="card-title">JWT & OAuth2</div>
+        <div class="card-desc">JWT para tokens stateless, OAuth2 para delegar autenticación a un proveedor externo.</div>
+        <div class="card-chips"><span class="chip">Bearer token</span><span class="chip">access · refresh token</span></div>
+        <div class="card-detail">
+          <b>JWT</b> (JSON Web Token): token firmado que contiene claims (datos del usuario). El servidor no necesita consultar la DB para verificar identidad.
+          <pre>// Estructura: header.payload.signature
+// Payload ejemplo:
+{
+  "sub": "123",           // subject (user id)
+  "email": "ana@mail.com",
+  "roles": ["USER"],
+  "exp": 1735689600       // expiración
+}
+ 
+// En Spring: el filtro valida el token en cada request
+// y carga el SecurityContext</pre>
+          <b>OAuth2</b>: el usuario se autentica con Google/GitHub/etc. Tu app recibe un token sin manejar la contraseña. Spring Security tiene soporte nativo para OAuth2 Resource Server y Client.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">vulnerabilidades</div>
+        <div class="card-title">OWASP Top 10</div>
+        <div class="card-desc">Las vulnerabilidades más críticas en aplicaciones web que todo developer debe conocer.</div>
+        <div class="card-chips"><span class="chip">SQL injection · XSS</span><span class="chip">IDOR · CSRF</span></div>
+        <div class="card-detail">
+          Las más comunes en APIs Java:<br/><br/>
+          <b>SQL Injection</b>: nunca concatenes strings en queries. Usá parámetros:
+          <pre>// MAL - vulnerable
+"SELECT * FROM users WHERE email = '" + email + "'"
+ 
+// BIEN - parámetro bound
+repo.findByEmail(email) // Spring Data lo hace automáticamente</pre>
+          <b>IDOR</b> (Insecure Direct Object Reference): verificá que el usuario tiene permiso sobre el recurso que pide, no solo que esté autenticado.<br/>
+          <b>Exposición de datos</b>: nunca devuelvas passwords, tokens ni datos internos en la respuesta. Usá DTOs.<br/>
+          <b>Rate limiting</b>: protegé endpoints de abuso con Bucket4j o a nivel de API Gateway.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 12. CONTENEDORES & CI/CD ══ -->
+  <section class="section t-coral" id="s12">
+    <div class="section-header">
+      <div class="section-icon">🐳</div>
+      <div class="section-meta">
+        <div class="section-num">// 12</div>
+        <h2 class="section-title">Contenedores & CI/CD</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">containerización</div>
+        <div class="card-title">Docker</div>
+        <div class="card-desc">Empaquetar tu app y sus dependencias en una imagen portable que corre igual en cualquier entorno.</div>
+        <div class="card-chips"><span class="chip">Dockerfile · image</span><span class="chip">docker-compose</span></div>
+        <div class="card-detail">
+          <pre># Dockerfile para Spring Boot (multi-stage build)
+FROM eclipse-temurin:21-jdk AS builder
+WORKDIR /app
+COPY . .
+RUN ./mvnw package -DskipTests
+ 
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]</pre>
+          <code>docker-compose.yml</code> es ideal para desarrollo local: levantá tu app + PostgreSQL + Redis con un solo <code>docker-compose up</code>. En producción, usás Kubernetes o un servicio gestionado.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">automatización</div>
+        <div class="card-title">CI/CD con GitHub Actions</div>
+        <div class="card-desc">Automatizar build, tests y despliegue cada vez que hacés push. Detectá errores antes de producción.</div>
+        <div class="card-chips"><span class="chip">workflow · pipeline</span><span class="chip">build · test · deploy</span></div>
+        <div class="card-detail">
+          <pre># .github/workflows/ci.yml
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Build & test
+        run: ./mvnw verify
+      - name: Build Docker image
+        run: docker build -t mi-app:${{ github.sha }} .
+      - name: Push to registry
+        run: docker push mi-app:${{ github.sha }}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">orquestación</div>
+        <div class="card-title">Kubernetes básico</div>
+        <div class="card-desc">Orquestar múltiples contenedores en producción: escalado, auto-healing y balanceo de carga.</div>
+        <div class="card-chips"><span class="chip">Pod · Deployment</span><span class="chip">Service · Ingress</span></div>
+        <div class="card-detail">
+          Conceptos clave: <b>Pod</b> = unidad mínima (1+ contenedores). <b>Deployment</b> = mantiene N réplicas de un Pod. <b>Service</b> = expone los Pods internamente. <b>Ingress</b> = punto de entrada HTTP externo.
+          <pre>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mi-app
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: mi-app
+          image: mi-app:v1.2.0
+          ports:
+            - containerPort: 8080
+          resources:
+            requests: { memory: "256Mi", cpu: "250m" }
+            limits:   { memory: "512Mi", cpu: "500m" }</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 13. OBSERVABILIDAD ══ -->
+  <section class="section t-teal" id="s13">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
+      <div class="section-meta">
+        <div class="section-num">// 13</div>
+        <h2 class="section-title">Observabilidad</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">logs</div>
+        <div class="card-title">Logging estructurado</div>
+        <div class="card-desc">Registrar lo que hace la app de forma estructurada (JSON) para facilitar búsqueda y análisis.</div>
+        <div class="card-chips"><span class="chip">SLF4J · Logback</span><span class="chip">MDC · correlation-id</span></div>
+        <div class="card-detail">
+          Spring Boot usa SLF4J + Logback por defecto. Logueá en JSON para que las plataformas (Datadog, Elastic) lo procesen:
+          <pre>private static final Logger log = LoggerFactory.getLogger(MiServicio.class);
+ 
+public void procesarPedido(Long id) {
+    MDC.put("pedidoId", id.toString()); // aparece en todos los logs del request
+    log.info("Procesando pedido");      // {"level":"INFO","pedidoId":"42",...}
+ 
+    try {
+        // lógica
+        log.info("Pedido procesado exitosamente");
+    } catch (Exception e) {
+        log.error("Error procesando pedido", e); // incluye stack trace
+    } finally {
+        MDC.clear();
+    }
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">métricas</div>
+        <div class="card-title">Prometheus & Grafana</div>
+        <div class="card-desc">Prometheus recolecta métricas de tu app. Grafana las visualiza en dashboards.</div>
+        <div class="card-chips"><span class="chip">Micrometer · /actuator</span><span class="chip">counter · gauge · timer</span></div>
+        <div class="card-detail">
+          Spring Boot Actuator expone métricas en <code>/actuator/prometheus</code> automáticamente. Con Micrometer podés agregar métricas propias:
+          <pre>@Service
+public class PedidoService {
+    private final Counter pedidosCreados;
+    private final Timer tiempoProcesamiento;
+ 
+    public PedidoService(MeterRegistry registry) {
+        pedidosCreados = registry.counter("pedidos.creados");
+        tiempoProcesamiento = registry.timer("pedidos.procesamiento");
+    }
+ 
+    public void crear(Pedido pedido) {
+        tiempoProcesamiento.record(() -> {
+            // lógica
+            pedidosCreados.increment();
+        });
+    }
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">tracing</div>
+        <div class="card-title">Distributed tracing</div>
+        <div class="card-desc">Seguir el camino de un request a través de múltiples servicios. Fundamental en microservicios.</div>
+        <div class="card-chips"><span class="chip">trace-id · span</span><span class="chip">Zipkin · Jaeger</span></div>
+        <div class="card-detail">
+          Spring Boot 3 incluye Micrometer Tracing. Cada request recibe un <code>trace-id</code> que se propaga automáticamente entre servicios vía headers HTTP.
+          <pre>// Spring agrega automáticamente trace-id a los logs:
+// {"traceId":"abc123","spanId":"def456","message":"Procesando"}
+ 
+# Ver el trace en Zipkin:
+# http://localhost:9411 → buscar por trace-id → ver cascada de llamadas</pre>
+          Con esto podés ver exactamente en qué servicio y en qué paso se generó un error o latencia, aunque el request pasó por 5 servicios.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 14. MICROSERVICIOS ══ -->
+  <section class="section t-coral" id="s14">
+    <div class="section-header">
+      <div class="section-icon">🔬</div>
+      <div class="section-meta">
+        <div class="section-num">// 14</div>
+        <h2 class="section-title">Microservicios</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">spring cloud</div>
+        <div class="card-title">Spring Cloud</div>
+        <div class="card-desc">Herramientas para construir sistemas distribuidos: service discovery, config centralizada, circuit breaker.</div>
+        <div class="card-chips"><span class="chip">Eureka · Config Server</span><span class="chip">Resilience4j</span></div>
+        <div class="card-detail">
+          <b>Service Discovery (Eureka)</b>: los servicios se registran y se encuentran por nombre, sin IPs hardcodeadas.<br/>
+          <b>Config Server</b>: configuración centralizada para todos los servicios desde un repo Git.<br/>
+          <b>Circuit Breaker (Resilience4j)</b>: evita que el fallo de un servicio cascade a otros.
+          <pre>@CircuitBreaker(name = "inventario", fallbackMethod = "fallbackInventario")
+public int consultarStock(Long productoId) {
+    return inventarioClient.getStock(productoId); // llamada externa
+}
+ 
+public int fallbackInventarioInventario(Long id, Exception e) {
+    log.warn("Inventario no disponible, usando fallback");
+    return -1; // valor por defecto
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">comunicación</div>
+        <div class="card-title">Feign & API Gateway</div>
+        <div class="card-desc">Feign para llamar otros servicios REST. API Gateway como punto único de entrada.</div>
+        <div class="card-chips"><span class="chip">@FeignClient</span><span class="chip">Spring Cloud Gateway</span></div>
+        <div class="card-detail">
+          Feign genera el cliente HTTP automáticamente desde una interfaz:
+          <pre>@FeignClient(name = "inventario-service")
+public interface InventarioClient {
+    @GetMapping("/inventario/{productoId}")
+    StockDTO getStock(@PathVariable Long productoId);
+}
+ 
+// Usarlo como si fuera un bean local
+@Autowired InventarioClient inventarioClient;
+int stock = inventarioClient.getStock(42L);</pre>
+          El <b>API Gateway</b> recibe todos los requests externos y los enruta al servicio correcto. También maneja autenticación, rate limiting y logging centralizado.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 15. RENDIMIENTO ══ -->
+  <section class="section t-coral" id="s15">
+    <div class="section-header">
+      <div class="section-icon">🚀</div>
+      <div class="section-meta">
+        <div class="section-num">// 15</div>
+        <h2 class="section-title">Rendimiento</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">JVM</div>
+        <div class="card-title">JVM tuning & GC</div>
+        <div class="card-desc">Ajustar la JVM para optimizar uso de memoria, latencia y throughput según el perfil de tu app.</div>
+        <div class="card-chips"><span class="chip">-Xmx · -Xms · GC logs</span><span class="chip">G1GC · ZGC</span></div>
+        <div class="card-detail">
+          Los Garbage Collectors modernos más relevantes:<br/>
+          <b>G1GC</b>: default en Java 9+, buen balance entre throughput y latencia.<br/>
+          <b>ZGC</b>: pausas sub-milisegundo, ideal para apps con baja latencia y heap grande.
+          <pre># Configuración típica de producción
+java -Xms512m -Xmx2g \
+     -XX:+UseZGC \
+     -XX:+PrintGCDetails \
+     -Xlog:gc*:gc.log \
+     -jar app.jar</pre>
+          Herramientas para analizar: <b>VisualVM</b>, <b>JProfiler</b>, <b>async-profiler</b> (flame graphs). Antes de tuning, medí con profiling. No optimices a ciegas.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">load testing</div>
+        <div class="card-title">Profiling & load testing</div>
+        <div class="card-desc">Encontrar cuellos de botella antes de producción. Medir para saber qué optimizar.</div>
+        <div class="card-chips"><span class="chip">JMeter · Gatling · k6</span><span class="chip">flame graph</span></div>
+        <div class="card-detail">
+          El flujo correcto: <b>medir → identificar cuello → optimizar → medir de nuevo</b>. Nunca al revés.
+          <br/><br/>
+          <b>Load testing</b>: simulá carga real antes de producción. k6 es moderno y scripteable en JS:
+          <pre># k6: simular 100 usuarios por 30 segundos
+k6 run --vus 100 --duration 30s script.js</pre>
+          Las causas más comunes de lentitud en Java backend: N+1 queries, ausencia de índices en DB, llamadas externas sin timeout, queries sin paginación, locks innecesarios.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 16. CLOUD ══ -->
+  <section class="section t-coral" id="s16">
+    <div class="section-header">
+      <div class="section-icon">☁️</div>
+      <div class="section-meta">
+        <div class="section-num">// 16</div>
+        <h2 class="section-title">Cloud</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">providers</div>
+        <div class="card-title">AWS / GCP / Azure</div>
+        <div class="card-desc">Los tres grandes proveedores cloud. AWS es el más usado, pero los conceptos son similares entre ellos.</div>
+        <div class="card-chips"><span class="chip">EC2 · ECS · RDS</span><span class="chip">S3 · IAM · VPC</span></div>
+        <div class="card-detail">
+          Lo que más usarás como backend developer en AWS:
+          <br/><br/>
+          <b>EC2 / ECS / EKS</b>: correr tu app (VMs, contenedores, Kubernetes).<br/>
+          <b>RDS</b>: PostgreSQL/MySQL gestionado (backups, failover automático).<br/>
+          <b>S3</b>: almacenamiento de archivos (imágenes, PDFs, backups).<br/>
+          <b>SQS / SNS</b>: colas y notificaciones (alternativa a Kafka/RabbitMQ gestionada).<br/>
+          <b>IAM</b>: gestión de permisos. Nunca uses root credentials en tu app.<br/>
+          <b>CloudWatch</b>: logs y métricas.<br/><br/>
+          Certificación de entrada: <b>AWS Certified Developer – Associate</b>.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">infraestructura como código</div>
+        <div class="card-title">IaC: Terraform</div>
+        <div class="card-desc">Definir y versionar la infraestructura cloud como código. Reproducible, auditable y automatizable.</div>
+        <div class="card-chips"><span class="chip">plan · apply · destroy</span><span class="chip">HCL · state</span></div>
+        <div class="card-detail">
+          Con Terraform describís los recursos que querés y él los crea/actualiza/elimina:
+          <pre>resource "aws_db_instance" "postgres" {
+  engine            = "postgres"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
+  db_name           = "miapp"
+  username          = var.db_user
+  password          = var.db_password
+  skip_final_snapshot = true
+}
+ 
+# terraform plan  → muestra qué va a crear/cambiar
+# terraform apply → aplica los cambios</pre>
+          Alternativas: AWS CDK (infraestructura en Java/TypeScript), Pulumi.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+  <hr class="divider"/>
+ 
+  <!-- ══ 17. SOFT SKILLS ══ -->
+  <section class="section t-gray" id="s17">
+    <div class="section-header">
+      <div class="section-icon">🤝</div>
+      <div class="section-meta">
+        <div class="section-num">// 17</div>
+        <h2 class="section-title">Soft skills</h2>
+      </div>
+    </div>
+    <div class="cards">
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">proceso</div>
+        <div class="card-title">Metodologías ágiles</div>
+        <div class="card-desc">Scrum y Kanban son los marcos de trabajo más usados en equipos de desarrollo.</div>
+        <div class="card-chips"><span class="chip">sprint · backlog</span><span class="chip">standup · retrospectiva</span></div>
+        <div class="card-detail">
+          <b>Scrum</b>: iteraciones de 1-2 semanas (sprints). Eventos: Daily standup (15 min), Sprint planning, Sprint review, Retrospectiva. Artefactos: Product backlog, Sprint backlog.<br/><br/>
+          <b>Kanban</b>: flujo continuo con columnas (To Do → In Progress → Review → Done). Limitás el trabajo en curso (WIP limits).<br/><br/>
+          Lo que más importa del día a día: saber estimar tareas, comunicar bloqueos a tiempo, escribir buenos tickets, y participar activamente en retrospectivas.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">comunicación</div>
+        <div class="card-title">Comunicación técnica</div>
+        <div class="card-desc">Explicar decisiones técnicas, escribir documentación y participar en discusiones de diseño.</div>
+        <div class="card-chips"><span class="chip">ADR · RFC · diagrams</span><span class="chip">async writing</span></div>
+        <div class="card-detail">
+          Habilidades de comunicación que te diferencian:<br/><br/>
+          <b>Architecture Decision Records (ADR)</b>: documentar por qué se tomó una decisión técnica importante, no solo qué se decidió.<br/><br/>
+          <b>Escribir bien en Slack/Jira</b>: contexto → problema → lo que probaste → pregunta concreta.<br/><br/>
+          <b>Presentar en reuniones técnicas</b>: empezá por el problema que resolvés, no por los detalles de implementación.<br/><br/>
+          <b>Code review constructivo</b>: preguntá en vez de afirmar, explicá el razonamiento, distinguí entre preferencias y problemas reales.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">carrera</div>
+        <div class="card-title">Aprendizaje continuo</div>
+        <div class="card-desc">El ecosistema Java evoluciona rápido. Estrategias para mantenerse actualizado sin quemarse.</div>
+        <div class="card-chips"><span class="chip">LTS releases · blogs</span><span class="chip">proyectos reales · OSS</span></div>
+        <div class="card-detail">
+          <b>Seguí las LTS de Java</b>: Java 21 (actual LTS) trajo Virtual Threads (Project Loom), pattern matching, sealed classes. Java 25 será la próxima LTS.<br/><br/>
+          <b>Fuentes recomendadas</b>: blog de Baeldung, InfoQ, Inside Java (blog oficial de Oracle), Spring Blog, changelog de Spring Boot.<br/><br/>
+          <b>La mejor forma de aprender</b>: construir proyectos reales. Hacé una API completa con todo lo del roadmap. Contribuí a un proyecto open source. Participá en comunidades (r/java, Stack Overflow, meetups locales).<br/><br/>
+          No intentés aprender todo antes de trabajar. Aprendés 10x más en un proyecto real con un equipo que estudiando solo.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+ 
+    </div>
+  </section>
+ 
+</main>
+ 
+<script>
+let total = 0;
+let opened = new Set();
+ 
+function toggle(card) {
+  const detail = card.querySelector('.card-detail');
+  const tog = card.querySelector('.card-toggle');
+  const isOpen = detail.classList.toggle('open');
+  tog.textContent = isOpen ? 'ver menos ↑' : 'ver más ↓';
+ 
+  const idx = Array.from(document.querySelectorAll('.card')).indexOf(card);
+  if (isOpen) opened.add(idx); else opened.delete(idx);
+  updateProgress();
+}
+ 
+function updateProgress() {
+  const count = opened.size;
+  document.getElementById('prog-count').textContent = count;
+  const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+}
+ 
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.card');
+  total = cards.length;
+  document.getElementById('prog-total').textContent = total;
+ 
+  // active nav on scroll
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const link = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, {threshold: 0.3});
+  sections.forEach(s => obs.observe(s));
+});
+</script>
+</body>
+</html>
