@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Infraestructura & Soporte — Guía de estudio</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090d;
+  --surface:#0c1018;
+  --card:#111820;
+  --border:#1a2535;
+  --border-hi:#253448;
+  --text:#cdd8e8;
+  --text-muted:#4d6480;
+  --text-dim:#253040;
+
+  --blue:#378add;   --blue-d:#071828;   --blue-g:#378add18;
+  --teal:#1d9e75;   --teal-d:#041a10;   --teal-g:#1d9e7518;
+  --purple:#7f77dd; --purple-d:#120f30; --purple-g:#7f77dd18;
+  --amber:#ef9f27;  --amber-d:#261500;  --amber-g:#ef9f2718;
+  --coral:#d85a30;  --coral-d:#220800;  --coral-g:#d85a3018;
+  --green:#639922;  --green-d:#0d1600;  --green-g:#63992218;
+  --gray:#7a8fa8;   --gray-d:#111820;   --gray-g:#7a8fa818;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Barlow',sans-serif;
+  font-size:15px;
+  line-height:1.7;
+  min-height:100vh;
+}
+
+/* ── SIDEBAR ── */
+#sidebar{
+  position:fixed;top:0;left:0;height:100vh;width:256px;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  overflow-y:auto;z-index:100;
+  padding:0 0 48px;
+}
+#sidebar::-webkit-scrollbar{width:3px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:2px}
+
+.sb-header{
+  padding:26px 22px 18px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--surface);z-index:1;
+}
+.sb-tag{
+  font-family:'Fira Code',monospace;
+  font-size:10px;letter-spacing:.14em;color:var(--text-muted);
+  margin-bottom:6px;
+}
+.sb-brand{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:20px;font-weight:700;color:var(--text);letter-spacing:.02em;
+}
+
+.nav-group{padding:16px 14px 2px 22px}
+.nav-group-label{
+  font-family:'Fira Code',monospace;
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:6px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 10px;border-radius:5px;
+  cursor:pointer;font-size:13px;color:var(--text-muted);
+  transition:all .15s;text-decoration:none;
+  border:none;background:none;width:100%;text-align:left;
+}
+.nav-item:hover{background:var(--border);color:var(--text)}
+.nav-item.active{background:var(--border);color:var(--text)}
+.nav-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* ── MAIN ── */
+#main{margin-left:256px;padding:56px 60px 100px;max-width:980px}
+
+/* ── HERO ── */
+.hero{margin-bottom:64px;padding-bottom:48px;border-bottom:1px solid var(--border)}
+.hero-tag{
+  font-family:'Fira Code',monospace;font-size:11px;
+  color:var(--teal);letter-spacing:.08em;margin-bottom:14px;
+}
+.hero-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:52px;font-weight:700;line-height:1.05;
+  color:var(--text);margin-bottom:18px;letter-spacing:.01em;
+}
+.hero-title span{color:var(--blue)}
+.hero-desc{font-size:15px;color:var(--text-muted);max-width:540px;line-height:1.8}
+.prog-wrap{margin-top:28px}
+.prog-label{
+  font-family:'Fira Code',monospace;font-size:11px;
+  color:var(--text-muted);margin-bottom:7px;
+}
+.prog-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));width:0%;transition:width .4s}
+
+/* ── SECTION ── */
+.section{margin-bottom:60px;scroll-margin-top:28px}
+.sec-hdr{display:flex;align-items:flex-start;gap:14px;margin-bottom:28px}
+.sec-icon{
+  width:42px;height:42px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:17px;margin-top:2px;
+}
+.sec-num{
+  font-family:'Fira Code',monospace;
+  font-size:10px;letter-spacing:.1em;margin-bottom:3px;
+}
+.sec-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:28px;font-weight:700;color:var(--text);letter-spacing:.02em;
+}
+
+/* ── CARDS ── */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:20px 22px;
+  transition:border-color .18s,transform .18s;
+  cursor:pointer;position:relative;overflow:hidden;
+}
+.card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .2s}
+.card:hover{transform:translateY(-2px)}
+.card-tag{
+  font-family:'Fira Code',monospace;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;
+}
+.card-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:17px;font-weight:700;color:var(--text);
+  letter-spacing:.02em;margin-bottom:6px;
+}
+.card-desc{font-size:13px;color:var(--text-muted);line-height:1.7}
+.card-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.chip{
+  font-family:'Fira Code',monospace;
+  font-size:10px;padding:3px 7px;border-radius:3px;
+}
+.card-detail{
+  display:none;margin-top:12px;padding-top:12px;
+  border-top:1px solid var(--border);
+  font-size:13px;color:var(--text-muted);line-height:1.8;
+}
+.card-detail.open{display:block}
+.card-detail code{
+  font-family:'Fira Code',monospace;font-size:11px;
+  background:var(--bg);color:var(--amber);
+  padding:1px 5px;border-radius:3px;
+}
+.card-detail pre{
+  font-family:'Fira Code',monospace;font-size:11px;
+  background:var(--bg);color:var(--text);
+  padding:14px;border-radius:7px;margin:10px 0;
+  overflow-x:auto;border:1px solid var(--border);line-height:1.65;
+}
+.card-detail b{color:var(--text);font-weight:500}
+.card-toggle{
+  font-family:'Fira Code',monospace;font-size:10px;
+  color:var(--text-dim);margin-top:10px;
+  cursor:pointer;display:inline-block;transition:color .15s;
+}
+.card-toggle:hover{color:var(--text-muted)}
+
+/* Temas por sección */
+.t-blue .sec-icon{background:var(--blue-d);color:var(--blue)}
+.t-blue .sec-num{color:var(--blue)}
+.t-blue .card:hover{border-color:var(--blue)}
+.t-blue .card::before{background:var(--blue-g)}
+.t-blue .card:hover::before{opacity:1}
+.t-blue .card-tag{color:var(--blue)}
+.t-blue .chip{background:var(--blue-d);color:var(--blue)}
+
+.t-teal .sec-icon{background:var(--teal-d);color:var(--teal)}
+.t-teal .sec-num{color:var(--teal)}
+.t-teal .card:hover{border-color:var(--teal)}
+.t-teal .card::before{background:var(--teal-g)}
+.t-teal .card:hover::before{opacity:1}
+.t-teal .card-tag{color:var(--teal)}
+.t-teal .chip{background:var(--teal-d);color:var(--teal)}
+
+.t-purple .sec-icon{background:var(--purple-d);color:var(--purple)}
+.t-purple .sec-num{color:var(--purple)}
+.t-purple .card:hover{border-color:var(--purple)}
+.t-purple .card::before{background:var(--purple-g)}
+.t-purple .card:hover::before{opacity:1}
+.t-purple .card-tag{color:var(--purple)}
+.t-purple .chip{background:var(--purple-d);color:var(--purple)}
+
+.t-green .sec-icon{background:var(--green-d);color:var(--green)}
+.t-green .sec-num{color:var(--green)}
+.t-green .card:hover{border-color:var(--green)}
+.t-green .card::before{background:var(--green-g)}
+.t-green .card:hover::before{opacity:1}
+.t-green .card-tag{color:var(--green)}
+.t-green .chip{background:var(--green-d);color:var(--green)}
+
+.t-coral .sec-icon{background:var(--coral-d);color:var(--coral)}
+.t-coral .sec-num{color:var(--coral)}
+.t-coral .card:hover{border-color:var(--coral)}
+.t-coral .card::before{background:var(--coral-g)}
+.t-coral .card:hover::before{opacity:1}
+.t-coral .card-tag{color:var(--coral)}
+.t-coral .chip{background:var(--coral-d);color:var(--coral)}
+
+.t-amber .sec-icon{background:var(--amber-d);color:var(--amber)}
+.t-amber .sec-num{color:var(--amber)}
+.t-amber .card:hover{border-color:var(--amber)}
+.t-amber .card::before{background:var(--amber-g)}
+.t-amber .card:hover::before{opacity:1}
+.t-amber .card-tag{color:var(--amber)}
+.t-amber .chip{background:var(--amber-d);color:var(--amber)}
+
+.t-gray .sec-icon{background:var(--gray-d);color:var(--gray)}
+.t-gray .sec-num{color:var(--gray)}
+.t-gray .card:hover{border-color:var(--gray)}
+.t-gray .card::before{background:var(--gray-g)}
+.t-gray .card:hover::before{opacity:1}
+.t-gray .card-tag{color:var(--gray)}
+.t-gray .chip{background:var(--gray-d);color:var(--gray)}
+
+.divider{border:none;border-top:1px solid var(--border);margin:52px 0}
+
+@media(max-width:800px){
+  #sidebar{display:none}
+  #main{margin-left:0;padding:28px 20px 80px}
+  .hero-title{font-size:36px}
+  .cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div class="sb-header">
+    <div class="sb-tag">// infra-support-roadmap</div>
+    <div class="sb-brand">IT Infra & Soporte</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Base</div>
+    <a class="nav-item" href="#s1"><span class="nav-dot" style="background:var(--blue)"></span>Fundamentos IT</a>
+    <a class="nav-item" href="#s2"><span class="nav-dot" style="background:var(--blue)"></span>Sistemas operativos</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Sistemas & redes</div>
+    <a class="nav-item" href="#s3"><span class="nav-dot" style="background:var(--teal)"></span>Active Directory</a>
+    <a class="nav-item" href="#s4"><span class="nav-dot" style="background:var(--teal)"></span>Redes avanzadas</a>
+    <a class="nav-item" href="#s5"><span class="nav-dot" style="background:var(--teal)"></span>Seguridad básica</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Virtualización & cloud</div>
+    <a class="nav-item" href="#s6"><span class="nav-dot" style="background:var(--purple)"></span>Virtualización</a>
+    <a class="nav-item" href="#s7"><span class="nav-dot" style="background:var(--purple)"></span>Microsoft Azure</a>
+    <a class="nav-item" href="#s8"><span class="nav-dot" style="background:var(--purple)"></span>Amazon AWS</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Operaciones</div>
+    <a class="nav-item" href="#s9"><span class="nav-dot" style="background:var(--green)"></span>Monitoreo proactivo</a>
+    <a class="nav-item" href="#s10"><span class="nav-dot" style="background:var(--green)"></span>Backup & continuidad</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">ITSM & soporte</div>
+    <a class="nav-item" href="#s11"><span class="nav-dot" style="background:var(--coral)"></span>ITSM & tickets</a>
+    <a class="nav-item" href="#s12"><span class="nav-dot" style="background:var(--coral)"></span>Resolución de incidentes</a>
+    <a class="nav-item" href="#s13"><span class="nav-dot" style="background:var(--coral)"></span>Documentación</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Automatización</div>
+    <a class="nav-item" href="#s14"><span class="nav-dot" style="background:var(--amber)"></span>Scripting</a>
+    <a class="nav-item" href="#s15"><span class="nav-dot" style="background:var(--amber)"></span>IaC & DevOps básico</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Avanzado & carrera</div>
+    <a class="nav-item" href="#s16"><span class="nav-dot" style="background:var(--gray)"></span>Certificaciones</a>
+    <a class="nav-item" href="#s17"><span class="nav-dot" style="background:var(--gray)"></span>Hiperconvergencia</a>
+    <a class="nav-item" href="#s18"><span class="nav-dot" style="background:var(--gray)"></span>Seguridad avanzada</a>
+    <a class="nav-item" href="#s19"><span class="nav-dot" style="background:var(--gray)"></span>Soft skills & carrera</a>
+  </div>
+</nav>
+
+<main id="main">
+
+  <div class="hero">
+    <div class="hero-tag">// it-infra-support-roadmap · guía completa</div>
+    <h1 class="hero-title">IT Infra &<br/><span>Soporte técnico</span></h1>
+    <p class="hero-desc">Todos los conceptos del roadmap explicados en un solo lugar. Hacé clic en cada tarjeta para ver detalles, comandos y ejemplos reales.</p>
+    <div class="prog-wrap">
+      <div class="prog-label">// temas abiertos: <span id="prog-count">0</span> / <span id="prog-total">0</span></div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ══ 1. FUNDAMENTOS IT ══ -->
+  <section class="section t-blue" id="s1">
+    <div class="sec-hdr">
+      <div class="sec-icon">🖧</div>
+      <div>
+        <div class="sec-num">// 01</div>
+        <h2 class="sec-title">Fundamentos de IT</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">modelo</div>
+        <div class="card-title">Modelo OSI & TCP/IP</div>
+        <div class="card-desc">La base conceptual de cómo viajan los datos en una red. Indispensable para diagnosticar problemas.</div>
+        <div class="card-chips"><span class="chip">7 capas OSI</span><span class="chip">4 capas TCP/IP</span></div>
+        <div class="card-detail">
+          El modelo OSI tiene 7 capas: <b>Física</b> (cables, señales), <b>Enlace</b> (MAC, switches), <b>Red</b> (IP, routers), <b>Transporte</b> (TCP/UDP, puertos), <b>Sesión</b>, <b>Presentación</b> (TLS, cifrado), <b>Aplicación</b> (HTTP, DNS, SMTP).<br/><br/>
+          En la práctica usás el modelo TCP/IP de 4 capas. El truco para soporte: cuando hay un problema de conectividad, bajás capa por capa.
+          <pre># Diagnóstico capa por capa
+ping 192.168.1.1        # capa 3 (red) - ¿hay ruta?
+ping google.com         # capa 3 + DNS
+telnet servidor 443     # capa 4 (transporte) - ¿está el puerto abierto?
+curl -v https://sitio   # capa 7 (aplicación) - ¿responde HTTP?</pre>
+          Si el ping a la IP funciona pero no al nombre, el problema es DNS. Si no llega ni la IP, es enrutamiento o capa física.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">protocolos</div>
+        <div class="card-title">DNS, DHCP & servicios core</div>
+        <div class="card-desc">Los servicios de red que toda infraestructura usa. Si fallan, todo falla.</div>
+        <div class="card-chips"><span class="chip">DNS · DHCP · NTP</span><span class="chip">SMTP · LDAP</span></div>
+        <div class="card-detail">
+          <b>DNS</b>: traduce nombres a IPs. Registros clave: <code>A</code> (nombre→IPv4), <code>AAAA</code> (→IPv6), <code>MX</code> (correo), <code>CNAME</code> (alias), <code>PTR</code> (reverso), <code>SRV</code> (servicios como AD).<br/><br/>
+          <b>DHCP</b>: asigna IPs dinámicamente. El proceso DORA: Discover → Offer → Request → Acknowledge. El lease tiene tiempo de vida.
+          <pre># Diagnóstico DNS en Windows
+nslookup servidor.dominio.local
+nslookup -type=MX empresa.com
+Resolve-DnsName -Name dc01.corp.local -Type A
+
+# Diagnóstico DNS en Linux
+dig @8.8.8.8 empresa.com A
+dig -x 192.168.1.1   # resolución inversa
+
+# Ver lease DHCP actual (Windows)
+ipconfig /all
+ipconfig /release && ipconfig /renew</pre>
+          <b>NTP</b>: sincronización de tiempo. En Active Directory es crítico: si los relojes difieren más de 5 minutos, Kerberos rechaza la autenticación.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">hardware</div>
+        <div class="card-title">Hardware de servidor</div>
+        <div class="card-desc">Componentes físicos de servidores, storage y networking. Para entender qué falla y cómo escalar.</div>
+        <div class="card-chips"><span class="chip">CPU · RAM · RAID</span><span class="chip">HBA · NIC · iDRAC</span></div>
+        <div class="card-detail">
+          Componentes que vas a ver en el trabajo:<br/><br/>
+          <b>iDRAC / iLO / IPMI</b>: gestión remota fuera de banda. Permite encender, apagar, ver consola y logs del servidor aunque el SO no responda.<br/>
+          <b>HBA</b> (Host Bus Adapter): tarjeta de fibra óptica para conectar servidores a SANs.<br/>
+          <b>RAID</b>: combinación de discos para redundancia o performance.
+          <pre># Niveles de RAID más comunes:
+RAID 0  → striping, máxima velocidad, sin redundancia
+RAID 1  → espejo, tolera pérdida de 1 disco
+RAID 5  → paridad distribuida, tolera 1 disco, mínimo 3
+RAID 6  → tolera 2 discos, mínimo 4
+RAID 10 → espejo + striping, alto rendimiento y redundancia</pre>
+          En servidores modernos el RAID lo gestiona un controlador (ej: PERC en Dell). Siempre revisar el estado de los discos en el portal de gestión.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 2. SISTEMAS OPERATIVOS ══ -->
+  <section class="section t-blue" id="s2">
+    <div class="sec-hdr">
+      <div class="sec-icon">🖥️</div>
+      <div>
+        <div class="sec-num">// 02</div>
+        <h2 class="sec-title">Sistemas operativos</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">microsoft</div>
+        <div class="card-title">Windows Server</div>
+        <div class="card-desc">El sistema operativo central del entorno. Gestión de roles, servicios, eventos y administración remota.</div>
+        <div class="card-chips"><span class="chip">Server 2019/2022</span><span class="chip">roles · features · WinRM</span></div>
+        <div class="card-detail">
+          Los roles más comunes que vas a administrar: <b>AD DS</b> (Active Directory), <b>DNS Server</b>, <b>DHCP Server</b>, <b>File Server</b>, <b>IIS</b> (web), <b>Hyper-V</b>, <b>RDS</b> (Escritorio Remoto).<br/><br/>
+          Administración remota con PowerShell:
+          <pre># Conectarse remotamente a un servidor
+Enter-PSSession -ComputerName SERVER01
+# O ejecutar un comando remoto sin abrir sesión interactiva
+Invoke-Command -ComputerName SERVER01 -ScriptBlock { Get-Service }
+
+# Ver servicios críticos
+Get-Service | Where-Object {$_.Status -eq 'Stopped' -and $_.StartType -eq 'Automatic'}
+
+# Ver logs de eventos del sistema
+Get-EventLog -LogName System -Newest 50 -EntryType Error,Warning
+
+# Ver uso de disco
+Get-PSDrive | Where-Object {$_.Provider -like '*FileSystem*'}</pre>
+          El <b>Visor de Eventos</b> (Event Viewer) es tu mejor herramienta de diagnóstico. Los IDs de evento más importantes: 4625 (login fallido), 4624 (login exitoso), 1000 (error de aplicación), 6008 (apagado inesperado).
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">linux</div>
+        <div class="card-title">Linux básico</div>
+        <div class="card-desc">Comandos esenciales para administrar servidores Linux. Ubuntu Server y RHEL/CentOS son los más comunes en infra.</div>
+        <div class="card-chips"><span class="chip">bash · systemd · ssh</span><span class="chip">sudo · cron · logs</span></div>
+        <div class="card-detail">
+          Comandos que usás todos los días:
+          <pre># Navegación y archivos
+ls -lah /var/log/      # listar con permisos y tamaños
+tail -f /var/log/syslog  # ver logs en tiempo real
+grep -r "error" /var/log/ --include="*.log"
+
+# Procesos y recursos
+top / htop             # monitoreo en tiempo real
+ps aux | grep nginx    # buscar proceso específico
+df -h                  # uso de discos
+free -h                # memoria disponible
+ss -tlnp               # puertos en escucha
+
+# Servicios con systemd
+systemctl status nginx
+systemctl restart nginx
+systemctl enable nginx  # iniciar automáticamente
+journalctl -u nginx -f  # logs del servicio en tiempo real
+
+# Gestión de usuarios
+useradd -m -s /bin/bash juan
+passwd juan
+usermod -aG sudo juan   # agregar al grupo sudo</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">acceso remoto</div>
+        <div class="card-title">RDP & SSH</div>
+        <div class="card-desc">Los dos protocolos de acceso remoto más usados. RDP para Windows, SSH para Linux y equipos de red.</div>
+        <div class="card-chips"><span class="chip">RDP · mstsc</span><span class="chip">SSH · key auth · SCP</span></div>
+        <div class="card-detail">
+          <b>RDP</b>: puerto 3389. Usá siempre a través de VPN, nunca expuesto a internet directamente.
+          <pre># Conectar por RDP desde línea de comandos
+mstsc /v:192.168.1.10:3389
+
+# SSH: autenticación con clave (más seguro que contraseña)
+ssh-keygen -t ed25519 -C "mi-clave-infra"
+ssh-copy-id usuario@servidor
+
+# Copiar archivos con SCP
+scp archivo.txt usuario@servidor:/ruta/destino/
+scp -r directorio/ usuario@servidor:/home/
+
+# Tunel SSH para acceder a un servicio remoto
+ssh -L 8080:servidor-interno:80 bastion.empresa.com</pre>
+          Para SSH en producción: deshabilitar login de root, usar claves en vez de contraseñas, cambiar el puerto por defecto si hay muchos intentos de fuerza bruta.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 3. ACTIVE DIRECTORY ══ -->
+  <section class="section t-teal" id="s3">
+    <div class="sec-hdr">
+      <div class="sec-icon">🏢</div>
+      <div>
+        <div class="sec-num">// 03</div>
+        <h2 class="sec-title">Active Directory</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">estructura</div>
+        <div class="card-title">Estructura de AD DS</div>
+        <div class="card-desc">El directorio que gestiona usuarios, equipos y políticas en entornos Windows corporativos.</div>
+        <div class="card-chips"><span class="chip">dominio · bosque · OU</span><span class="chip">DC · schema · catálogo</span></div>
+        <div class="card-detail">
+          Conceptos clave:<br/>
+          <b>Dominio</b>: unidad administrativa (ej: <code>corp.empresa.com</code>).<br/>
+          <b>Bosque (Forest)</b>: colección de dominios con esquema compartido. Límite de seguridad real.<br/>
+          <b>OU (Organizational Unit)</b>: contenedor para organizar objetos y aplicar GPOs de forma granular.<br/>
+          <b>DC (Domain Controller)</b>: servidor que almacena y replica la base de datos de AD.<br/>
+          <b>FSMO roles</b>: cinco roles especiales de AD (PDC Emulator, RID Master, Infrastructure Master, Schema Master, Domain Naming Master).
+          <pre># Comandos PowerShell esenciales para AD
+Import-Module ActiveDirectory
+
+# Buscar usuario
+Get-ADUser -Filter {Name -like "Juan*"} -Properties *
+
+# Ver grupos de un usuario
+Get-ADPrincipalGroupMembership -Identity jperez | Select Name
+
+# Crear usuario
+New-ADUser -Name "Juan Perez" -SamAccountName "jperez" `
+  -UserPrincipalName "jperez@corp.empresa.com" `
+  -AccountPassword (Read-Host -AsSecureString) -Enabled $true
+
+# Desbloquear cuenta
+Unlock-ADAccount -Identity jperez
+
+# Ver DCs del dominio
+Get-ADDomainController -Filter *</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">políticas</div>
+        <div class="card-title">Group Policy (GPO)</div>
+        <div class="card-desc">Configuración centralizada de seguridad y comportamiento para usuarios y equipos del dominio.</div>
+        <div class="card-chips"><span class="chip">GPMC · RSoP · herencia</span><span class="chip">Computer · User config</span></div>
+        <div class="card-detail">
+          Las GPOs se aplican en este orden (LSDOU): <b>L</b>ocal → <b>S</b>itio → <b>D</b>ominio → <b>OU</b>. Las GPOs de OU más específica ganan sobre las del dominio.<br/><br/>
+          Usos comunes de GPOs: mapear unidades de red, configurar wallpaper corporativo, deshabilitar USB, instalar software, configurar políticas de contraseñas, redirigir carpetas de usuario.<br/>
+          <pre># Forzar actualización de GPO en un equipo
+gpupdate /force
+
+# Ver GPOs aplicadas a un usuario/equipo
+gpresult /R           # en consola
+gpresult /H report.html  # reporte HTML completo
+
+# Desde PowerShell remotamente
+Invoke-Command -ComputerName PC001 -ScriptBlock { gpupdate /force }
+
+# Ver qué GPO está aplicando una configuración específica (RSoP)
+# Herramienta: gpmc.msc → Group Policy Results Wizard</pre>
+          Cuando una GPO no aplica, revisar: bloqueo de herencia, filtros de seguridad, WMI filters y si el equipo/usuario está en la OU correcta.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">autenticación</div>
+        <div class="card-title">Kerberos & LDAP</div>
+        <div class="card-desc">Los protocolos de autenticación y consulta de directorio que usa Active Directory internamente.</div>
+        <div class="card-chips"><span class="chip">TGT · TGS · KDC</span><span class="chip">LDAP 389 · LDAPS 636</span></div>
+        <div class="card-detail">
+          <b>Kerberos</b>: protocolo de autenticación sin enviar contraseñas por la red. Flujo simplificado:<br/>
+          1. El usuario se autentica al KDC (el DC) y recibe un TGT (Ticket Granting Ticket).<br/>
+          2. Con el TGT pide un TGS (Ticket for a Service) para acceder a un recurso específico.<br/>
+          3. Presenta el TGS al servidor de destino.<br/><br/>
+          <b>LDAP</b>: protocolo para consultar y modificar el directorio. Lo usan casi todos los sistemas corporativos para autenticar usuarios contra AD.
+          <pre># Consultar AD con LDAP desde PowerShell
+$searcher = [adsisearcher]"(sAMAccountName=jperez)"
+$searcher.FindOne()
+
+# Con ldapsearch en Linux
+ldapsearch -H ldap://dc01.corp.local -D "jperez@corp.local" `
+  -W -b "DC=corp,DC=local" "(sAMAccountName=jperez)"
+
+# Ver tickets Kerberos actuales (Windows)
+klist</pre>
+          Problema común: "The trust relationship between this workstation and the primary domain failed" → el canal seguro entre el equipo y el DC se rompió. Solución: <code>Test-ComputerSecureChannel -Repair</code> o retirar y volver a unir al dominio.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 4. REDES AVANZADAS ══ -->
+  <section class="section t-teal" id="s4">
+    <div class="sec-hdr">
+      <div class="sec-icon">🔀</div>
+      <div>
+        <div class="sec-num">// 04</div>
+        <h2 class="sec-title">Redes avanzadas</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">segmentación</div>
+        <div class="card-title">VLANs & switching</div>
+        <div class="card-desc">Segmentar la red lógicamente sobre la misma infraestructura física. Seguridad y organización.</div>
+        <div class="card-chips"><span class="chip">802.1Q · trunk · access</span><span class="chip">STP · LACP</span></div>
+        <div class="card-detail">
+          Una VLAN es una red lógica separada sobre la misma red física. Cada VLAN tiene su propio dominio de broadcast.<br/><br/>
+          <b>Puerto Access</b>: pertenece a una sola VLAN (para equipos de usuario).<br/>
+          <b>Puerto Trunk</b>: transporta tráfico de múltiples VLANs con etiquetas 802.1Q (para uplinks entre switches y a routers/firewalls).
+          <pre># Configurar VLAN en switch Cisco (ejemplo)
+vlan 10
+ name USUARIOS
+vlan 20
+ name SERVIDORES
+vlan 30
+ name GESTION
+
+# Puerto de usuario (access)
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+
+# Puerto trunk (hacia otro switch o router)
+interface GigabitEthernet0/1
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30</pre>
+          <b>STP</b> (Spanning Tree): evita loops en redes con redundancia. Si hay un loop de red, la velocidad cae a 0 y el tráfico colapsa. STP apaga puertos redundantes hasta que hay un fallo.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">conectividad</div>
+        <div class="card-title">VPN & acceso remoto</div>
+        <div class="card-desc">Extender la red corporativa de forma segura a usuarios remotos y sedes remotas.</div>
+        <div class="card-chips"><span class="chip">IPSec · SSL/TLS</span><span class="chip">site-to-site · split tunnel</span></div>
+        <div class="card-detail">
+          <b>VPN site-to-site</b>: conecta dos oficinas permanentemente. Usa IPSec. El tráfico entre las dos redes va cifrado.<br/>
+          <b>VPN de usuario</b>: permite a usuarios remotos conectarse a la red corporativa. Tecnologías comunes: OpenVPN, FortiClient, GlobalProtect (Palo Alto), Always On VPN de Microsoft.<br/>
+          <b>Split tunnel</b>: solo el tráfico corporativo va por la VPN, el tráfico a internet sale directo. Reduce carga pero requiere buena política de seguridad.
+          <pre># Diagnóstico de VPN en Windows
+# Ver interfaces de red (incluye adaptadores VPN)
+Get-NetAdapter | Select Name, Status, LinkSpeed
+
+# Ver rutas (para entender si el tráfico va por VPN)
+route print
+# O
+Get-NetRoute | Where-Object {$_.DestinationPrefix -ne "0.0.0.0/0"}
+
+# Verificar conectividad a recursos internos
+Test-NetConnection -ComputerName servidor-interno -Port 443</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">firewall</div>
+        <div class="card-title">Firewall & routing</div>
+        <div class="card-desc">Controlar qué tráfico pasa entre segmentos de red. Firewalls de próxima generación (NGFW).</div>
+        <div class="card-chips"><span class="chip">ACL · NAT · NGFW</span><span class="chip">Fortinet · Palo Alto</span></div>
+        <div class="card-detail">
+          Un firewall evalúa cada paquete contra reglas: origen, destino, puerto, protocolo. En NGFWs también puede inspeccionar el contenido (DPI).<br/><br/>
+          <b>NAT</b> (Network Address Translation): traduce IPs privadas a una IP pública para salir a internet. PAT (Port Address Translation) permite que muchos equipos compartan una sola IP pública.<br/>
+          <pre># Ver tabla de ruteo en Linux
+ip route show
+# Agregar ruta estática
+ip route add 10.20.0.0/16 via 192.168.1.1
+
+# Verificar si un puerto está alcanzable
+telnet 192.168.1.100 443
+# Alternativa moderna sin telnet
+Test-NetConnection -ComputerName 192.168.1.100 -Port 443  # Windows
+nc -zv 192.168.1.100 443  # Linux
+
+# Ver reglas de firewall de Windows
+Get-NetFirewallRule | Where-Object {$_.Enabled -eq "True"} | Select DisplayName</pre>
+          Cuando algo no llega: verificar en cada salto si hay bloqueo. El comando <code>tracert</code> (Windows) o <code>traceroute</code> (Linux) muestra cada hop y la latencia.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 5. SEGURIDAD BÁSICA ══ -->
+  <section class="section t-teal" id="s5">
+    <div class="sec-hdr">
+      <div class="sec-icon">🛡️</div>
+      <div>
+        <div class="sec-num">// 05</div>
+        <h2 class="sec-title">Seguridad básica</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">permisos</div>
+        <div class="card-title">Permisos NTFS & RBAC</div>
+        <div class="card-desc">Controlar quién accede a qué en Windows. Permisos de archivos y roles de administración.</div>
+        <div class="card-chips"><span class="chip">ACL · herencia · efectivos</span><span class="chip">compartidos · RBAC</span></div>
+        <div class="card-detail">
+          Los permisos NTFS son locales al sistema de archivos. Los permisos de compartido (Share) son para acceso de red. El permiso efectivo es el más restrictivo entre ambos.<br/>
+          <pre># Ver permisos NTFS de una carpeta
+Get-Acl "C:\Datos\RRHH" | Format-List
+
+# Asignar permiso a un grupo en una carpeta
+$acl = Get-Acl "C:\Datos\RRHH"
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule(
+    "CORP\GRP_RRHH", "Modify", "ContainerInherit,ObjectInherit", "None", "Allow"
+)
+$acl.AddAccessRule($rule)
+Set-Acl "C:\Datos\RRHH" $acl
+
+# Ver permisos efectivos de un usuario sobre una carpeta
+# Herramienta: propiedades de carpeta → Seguridad → Avanzado → Acceso efectivo</pre>
+          Principio de mínimo privilegio: cada usuario y servicio debe tener solo los permisos que necesita para su función, nada más. Es el principio de seguridad más importante en el día a día.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">identidad</div>
+        <div class="card-title">MFA & gestión de contraseñas</div>
+        <div class="card-desc">Autenticación multifactor y políticas de contraseñas como primera línea de defensa.</div>
+        <div class="card-chips"><span class="chip">TOTP · FIDO2 · passkeys</span><span class="chip">Fine-grained PSO</span></div>
+        <div class="card-detail">
+          <b>MFA</b>: requerir algo que sabés (contraseña) + algo que tenés (teléfono/token) + algo que sos (biometría). Reduce drásticamente el riesgo de compromiso de cuentas.<br/><br/>
+          En entornos Microsoft el MFA se gestiona con <b>Azure AD / Entra ID</b> y el Microsoft Authenticator. Para cuentas privilegiadas también existe <b>PAM</b> (Privileged Access Management).<br/><br/>
+          Políticas de contraseñas con <b>Fine-grained Password Policy</b> en AD: permite tener políticas distintas para distintos grupos. Ej: usuarios normales → 8 chars, 90 días; admins → 16 chars, 30 días.
+          <pre># Ver política de contraseñas del dominio
+Get-ADDefaultDomainPasswordPolicy
+
+# Ver PSO (políticas granulares) aplicadas a un usuario
+Get-ADUserResultantPasswordPolicy -Identity jperez</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">parches</div>
+        <div class="card-title">Gestión de parches & antivirus</div>
+        <div class="card-desc">Mantener los sistemas actualizados es la defensa más efectiva contra vulnerabilidades conocidas.</div>
+        <div class="card-chips"><span class="chip">WSUS · SCCM · Intune</span><span class="chip">Defender · EDR</span></div>
+        <div class="card-detail">
+          <b>WSUS</b>: servidor local que centraliza las actualizaciones de Windows. Los equipos del dominio las descargan de WSUS en vez de Microsoft directamente (menos tráfico, más control).<br/>
+          <b>SCCM/MECM</b>: gestión completa de endpoints (parches, software, inventario, OSD).<br/>
+          <b>Intune</b>: versión cloud de gestión de dispositivos (MDM/MAM).<br/>
+          <pre># Forzar chequeo de actualizaciones en Windows
+wuauclt /detectnow
+# PowerShell moderno
+Install-Module PSWindowsUpdate -Force
+Get-WUList              # ver actualizaciones disponibles
+Install-WindowsUpdate -AcceptAll -AutoReboot  # instalar todas
+
+# Ver estado de Windows Defender
+Get-MpComputerStatus | Select AntivirusEnabled, RealTimeProtectionEnabled,
+  AMServiceEnabled, AntispywareEnabled, NISEnabled
+
+# Actualizar firmas de Defender
+Update-MpSignature</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 6. VIRTUALIZACIÓN ══ -->
+  <section class="section t-purple" id="s6">
+    <div class="sec-hdr">
+      <div class="sec-icon">📦</div>
+      <div>
+        <div class="sec-num">// 06</div>
+        <h2 class="sec-title">Virtualización</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">vmware</div>
+        <div class="card-title">VMware vSphere</div>
+        <div class="card-desc">La plataforma de virtualización empresarial más usada. ESXi como hipervisor, vCenter para gestión centralizada.</div>
+        <div class="card-chips"><span class="chip">ESXi · vCenter · vMotion</span><span class="chip">HA · DRS · datastores</span></div>
+        <div class="card-detail">
+          Arquitectura: <b>ESXi</b> es el hipervisor (tipo 1, corre directamente en hardware). <b>vCenter</b> es la consola de gestión centralizada para múltiples hosts ESXi.<br/><br/>
+          Conceptos clave:<br/>
+          <b>vMotion</b>: migrar una VM encendida de un host a otro sin downtime.<br/>
+          <b>Storage vMotion</b>: mover los archivos de una VM a otro datastore en caliente.<br/>
+          <b>HA (High Availability)</b>: reinicia automáticamente las VMs en otro host si el host falla.<br/>
+          <b>DRS (Distributed Resource Scheduler)</b>: balancea la carga automáticamente entre hosts.<br/>
+          <b>Snapshot</b>: punto de restauración de una VM (NO es backup, tiene impacto en performance si se deja mucho tiempo).
+          <pre># Gestión con PowerCLI (VMware PowerShell)
+Connect-VIServer -Server vcenter.corp.local
+
+# Ver todas las VMs y su estado
+Get-VM | Select Name, PowerState, NumCpu, MemoryGB
+
+# Ver VMs con snapshots viejos (peligroso para performance)
+Get-VM | Get-Snapshot | Where-Object {$_.Created -lt (Get-Date).AddDays(-7)}
+
+# Migrar VM a otro host
+Move-VM -VM "MI-SERVER" -Destination (Get-VMHost "esxi02.corp.local")</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">proxmox</div>
+        <div class="card-title">Proxmox VE</div>
+        <div class="card-desc">Plataforma de virtualización open source. Soporte para VMs (KVM) y contenedores (LXC). Muy usada en ambientes más chicos.</div>
+        <div class="card-chips"><span class="chip">KVM · LXC · Ceph</span><span class="chip">cluster · live migration</span></div>
+        <div class="card-detail">
+          Proxmox usa <b>KVM</b> para VMs completas y <b>LXC</b> para contenedores ligeros. Tiene interfaz web y API REST. Es gratuito (sin soporte) o con suscripción de empresa.<br/>
+          <pre># Gestión desde CLI en el host Proxmox
+# Listar VMs
+qm list
+
+# Iniciar/detener/reiniciar una VM
+qm start 101
+qm stop 101
+qm reset 101
+
+# Ver consola de una VM
+qm terminal 101
+
+# Crear snapshot
+qm snapshot 101 pre-update --vmstate 1
+
+# Listar snapshots
+qm listsnapshot 101
+
+# Rollback a snapshot
+qm rollback 101 pre-update
+
+# Para contenedores LXC
+pct list
+pct start 200
+pct enter 200  # ingresar al contenedor</pre>
+          Proxmox puede formar un <b>cluster</b> con múltiples nodos y usar <b>Ceph</b> para storage distribuido, logrando HA similar a VMware pero sin costos de licencia.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">hyper-v</div>
+        <div class="card-title">Hyper-V</div>
+        <div class="card-desc">El hipervisor de Microsoft. Integrado en Windows Server, muy común en entornos que ya tienen stack Microsoft.</div>
+        <div class="card-chips"><span class="chip">checkpoints · réplica</span><span class="chip">switch virtual · SCVMM</span></div>
+        <div class="card-detail">
+          Hyper-V viene incluido en Windows Server como un rol. No requiere licencia adicional para el hipervisor.<br/>
+          <pre># Gestión con PowerShell
+# Ver VMs
+Get-VM
+
+# Crear una VM
+New-VM -Name "MI-SERVIDOR" -MemoryStartupBytes 4GB `
+  -Generation 2 -NewVHDPath "D:\VMs\MI-SERVIDOR.vhdx" `
+  -NewVHDSizeBytes 80GB -SwitchName "vSwitch-LAN"
+
+# Checkpoint (equivalente a snapshot)
+Checkpoint-VM -Name "MI-SERVIDOR" -SnapshotName "Pre-Patch"
+Restore-VMCheckpoint -Name "Pre-Patch" -VMName "MI-SERVIDOR" -Confirm:$false
+
+# Réplica de VM a otro host (DR básico)
+Enable-VMReplication -VMName "MI-SERVIDOR" `
+  -ReplicaServerName "hyper-v-dr.corp.local" `
+  -ReplicaServerPort 443 -AuthenticationType Certificate `
+  -ReplicationFrequencySec 300</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 7. AZURE ══ -->
+  <section class="section t-purple" id="s7">
+    <div class="sec-hdr">
+      <div class="sec-icon">☁️</div>
+      <div>
+        <div class="sec-num">// 07</div>
+        <h2 class="sec-title">Microsoft Azure</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">identidad</div>
+        <div class="card-title">Azure AD / Entra ID</div>
+        <div class="card-desc">El directorio de identidades en la nube de Microsoft. Base de la autenticación en todo el ecosistema Microsoft 365 y Azure.</div>
+        <div class="card-chips"><span class="chip">SSO · MFA · SSPR</span><span class="chip">Conditional Access · PIM</span></div>
+        <div class="card-detail">
+          Azure AD (ahora llamado <b>Microsoft Entra ID</b>) es diferente al AD on-premises: es un directorio cloud, no usa Kerberos, usa OAuth2/OIDC y SAML.<br/><br/>
+          <b>Azure AD Connect</b>: sincroniza usuarios del AD on-premises a Azure AD para SSO híbrido. Los usuarios usan las mismas credenciales en la nube.<br/>
+          <b>Conditional Access</b>: políticas que permiten/bloquean acceso según condiciones (ubicación, dispositivo, riesgo de login).<br/>
+          <b>PIM</b> (Privileged Identity Management): activa roles privilegiados solo cuando se necesitan, con aprobación y justificación.
+          <pre># Azure CLI - gestión desde terminal
+az login
+
+# Ver usuarios
+az ad user list --output table
+
+# Crear usuario
+az ad user create --display-name "Juan Perez" \
+  --user-principal-name jperez@empresa.onmicrosoft.com \
+  --password "Temp1234!" --force-change-password-next-sign-in true
+
+# Asignar rol
+az role assignment create \
+  --assignee jperez@empresa.com \
+  --role "Virtual Machine Contributor" \
+  --resource-group rg-produccion</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">cómputo</div>
+        <div class="card-title">Azure VMs & recursos</div>
+        <div class="card-desc">Crear y gestionar máquinas virtuales, redes virtuales, storage y grupos de recursos en Azure.</div>
+        <div class="card-chips"><span class="chip">VNet · NSG · ARM</span><span class="chip">Availability Sets · Scale Sets</span></div>
+        <div class="card-detail">
+          Estructura básica en Azure:<br/>
+          <b>Resource Group</b>: contenedor lógico para recursos relacionados (práctica: un RG por proyecto/entorno).<br/>
+          <b>VNet</b>: red virtual privada en Azure. Subnets para segmentar. NSG (Network Security Group) para controlar tráfico.<br/>
+          <b>Availability Set</b>: distribuye VMs en distintos fault domains para HA.<br/>
+          <b>Availability Zone</b>: distribuye VMs en distintos datacenters de la misma región.
+          <pre># Crear VM con Azure CLI
+az vm create \
+  --resource-group rg-produccion \
+  --name vm-webserver \
+  --image Win2022Datacenter \
+  --size Standard_B2s \
+  --vnet-name vnet-prod \
+  --subnet subnet-web \
+  --admin-username azureadmin \
+  --admin-password "MiPassword123!"
+
+# Iniciar/detener VM (detener desasigna y deja de cobrar)
+az vm start  --resource-group rg-prod --name vm-web
+az vm deallocate --resource-group rg-prod --name vm-web
+
+# Ver tamaños disponibles por región
+az vm list-sizes --location eastus --output table</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">storage</div>
+        <div class="card-title">Azure Storage & Backup</div>
+        <div class="card-desc">Almacenamiento en la nube: Blob, Files, Queues. Y backup con Azure Backup vault.</div>
+        <div class="card-chips"><span class="chip">Blob · Files · LRS/GRS</span><span class="chip">Recovery Services vault</span></div>
+        <div class="card-detail">
+          Tipos de storage en Azure:<br/>
+          <b>Blob</b>: objetos no estructurados (imágenes, backups, logs, archivos grandes).<br/>
+          <b>Azure Files</b>: file share SMB en la nube. Montar como unidad de red en Windows o Linux.<br/>
+          <b>Managed Disks</b>: discos de las VMs. Tipos: Standard HDD, Standard SSD, Premium SSD, Ultra Disk.<br/>
+          <b>Redundancia</b>: LRS (3 copias en mismo datacenter), ZRS (en 3 zonas), GRS (replicación a otra región).
+          <pre># Montar Azure Files en Windows (via PowerShell)
+$connectTestResult = Test-NetConnection -ComputerName `
+  "mystorageaccount.file.core.windows.net" -Port 445
+if ($connectTestResult.TcpTestSucceeded) {
+    cmd.exe /C "cmdkey /add:`"mystorageaccount.file.core.windows.net`" `
+      /user:`"Azure\mystorageaccount`" /pass:`"<storage-key>`""
+    New-PSDrive -Name Z -PSProvider FileSystem `
+      -Root "\\mystorageaccount.file.core.windows.net\mi-share" -Persist
+}</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 8. AWS ══ -->
+  <section class="section t-purple" id="s8">
+    <div class="sec-hdr">
+      <div class="sec-icon">🟠</div>
+      <div>
+        <div class="sec-num">// 08</div>
+        <h2 class="sec-title">Amazon AWS</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">cómputo</div>
+        <div class="card-title">EC2 & redes en AWS</div>
+        <div class="card-desc">Instancias de cómputo en AWS y su estructura de red: VPC, subnets, security groups.</div>
+        <div class="card-chips"><span class="chip">EC2 · AMI · EBS</span><span class="chip">VPC · SG · IGW</span></div>
+        <div class="card-detail">
+          Conceptos clave de red en AWS:<br/>
+          <b>VPC</b>: red virtual privada en AWS, equivalente a una VNet de Azure.<br/>
+          <b>Subnet pública</b>: tiene ruta al Internet Gateway (IGW), los recursos pueden acceder a internet.<br/>
+          <b>Subnet privada</b>: solo acceso interno o via NAT Gateway.<br/>
+          <b>Security Group</b>: firewall a nivel de instancia (stateful). <b>NACL</b>: firewall a nivel de subnet (stateless).
+          <pre># AWS CLI - gestión desde terminal
+aws configure  # configurar credenciales
+
+# Listar instancias EC2
+aws ec2 describe-instances \
+  --query 'Reservations[*].Instances[*].[InstanceId,State.Name,Tags[?Key==`Name`].Value]' \
+  --output table
+
+# Iniciar / detener instancia
+aws ec2 start-instances --instance-ids i-0123456789abcdef0
+aws ec2 stop-instances  --instance-ids i-0123456789abcdef0
+
+# Conectar via SSM Session Manager (sin SSH expuesto)
+aws ssm start-session --target i-0123456789abcdef0</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">almacenamiento</div>
+        <div class="card-title">S3 & RDS</div>
+        <div class="card-desc">S3 para almacenamiento de objetos, RDS para bases de datos relacionales gestionadas.</div>
+        <div class="card-chips"><span class="chip">S3 buckets · lifecycle</span><span class="chip">RDS · Multi-AZ · read replica</span></div>
+        <div class="card-detail">
+          <b>S3</b>: almacenamiento de objetos con 99.999999999% (11 nueves) de durabilidad. Tiene clases de almacenamiento: Standard, Intelligent-Tiering, Glacier (para archivos).<br/>
+          <b>RDS</b>: bases de datos gestionadas (MySQL, PostgreSQL, SQL Server, Oracle). AWS se encarga de backups, parches y failover.
+          <pre># Gestión de S3 con CLI
+# Listar buckets
+aws s3 ls
+
+# Copiar archivo a S3
+aws s3 cp backup.tar.gz s3://mi-bucket-backups/2024/
+
+# Sincronizar directorio local con S3
+aws s3 sync /var/backups/ s3://mi-bucket-backups/ --delete
+
+# Ver tamaño de un bucket
+aws s3 ls s3://mi-bucket --recursive --human-readable --summarize
+
+# Descargar objeto
+aws s3 cp s3://mi-bucket/archivo.txt ./archivo-local.txt</pre>
+          RDS Multi-AZ crea una réplica en otra zona de disponibilidad. En caso de fallo del primario, el failover es automático en ~60-120 segundos.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">seguridad</div>
+        <div class="card-title">IAM en AWS</div>
+        <div class="card-desc">Gestión de identidades y permisos en AWS. El error de IAM es la causa más común de incidentes de seguridad cloud.</div>
+        <div class="card-chips"><span class="chip">usuarios · roles · policies</span><span class="chip">least privilege · MFA</span></div>
+        <div class="card-detail">
+          <b>IAM Users</b>: para personas o sistemas que necesitan acceso programático o a la consola.<br/>
+          <b>IAM Roles</b>: para servicios de AWS (ej: una EC2 que necesita leer S3). Es mejor práctica que usar access keys.<br/>
+          <b>IAM Policies</b>: documentos JSON que definen qué acciones están permitidas/denegadas sobre qué recursos.
+          <pre># Policy de mínimo privilegio para leer S3
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ],
+    "Resource": [
+      "arn:aws:s3:::mi-bucket",
+      "arn:aws:s3:::mi-bucket/*"
+    ]
+  }]
+}
+
+# Ver permisos efectivos de un usuario
+aws iam simulate-principal-policy \
+  --policy-source-arn arn:aws:iam::123456789:user/jperez \
+  --action-names s3:GetObject \
+  --resource-arns arn:aws:s3:::mi-bucket/archivo.txt</pre>
+          Regla de oro: nunca usar las credenciales de root para operaciones diarias. Crear usuarios IAM con los permisos mínimos necesarios y habilitar MFA.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 9. MONITOREO ══ -->
+  <section class="section t-green" id="s9">
+    <div class="sec-hdr">
+      <div class="sec-icon">📊</div>
+      <div>
+        <div class="sec-num">// 09</div>
+        <h2 class="sec-title">Monitoreo proactivo</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">herramienta</div>
+        <div class="card-title">Zabbix</div>
+        <div class="card-desc">Plataforma de monitoreo open source muy usada en infraestructura on-premises. Agentes, SNMP y alertas.</div>
+        <div class="card-chips"><span class="chip">agente · SNMP · JMX</span><span class="chip">triggers · alertas · SLA</span></div>
+        <div class="card-detail">
+          Zabbix puede monitorear via <b>agente</b> (instalar en el servidor), <b>SNMP</b> (para switches y dispositivos de red), <b>ICMP</b> (ping), <b>JMX</b> (Java) o sin agente via WMI (Windows).<br/><br/>
+          Conceptos clave:<br/>
+          <b>Item</b>: métrica a recolectar (ej: % de CPU, espacio libre en disco).<br/>
+          <b>Trigger</b>: condición que genera una alerta (ej: si CPU > 90% por más de 5 minutos).<br/>
+          <b>Action</b>: qué hacer cuando dispara un trigger (enviar email, Slack, ejecutar script).<br/>
+          <b>Template</b>: conjunto de items y triggers preconfigurados para un tipo de dispositivo.
+          <pre># Instalar agente Zabbix en Ubuntu
+wget https://repo.zabbix.com/zabbix/6.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.4-1+ubuntu22.04_all.deb
+dpkg -i zabbix-release_6.4-1+ubuntu22.04_all.deb
+apt update && apt install zabbix-agent2
+
+# Configurar /etc/zabbix/zabbix_agent2.conf
+Server=192.168.1.50        # IP del servidor Zabbix
+ServerActive=192.168.1.50
+Hostname=mi-servidor
+
+systemctl enable --now zabbix-agent2</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">visualización</div>
+        <div class="card-title">Grafana & Prometheus</div>
+        <div class="card-desc">Prometheus recolecta métricas, Grafana las visualiza. El stack más popular para cloud-native monitoring.</div>
+        <div class="card-chips"><span class="chip">PromQL · exporters</span><span class="chip">dashboards · alertmanager</span></div>
+        <div class="card-detail">
+          <b>Prometheus</b>: base de datos de series de tiempo que hace scraping (pull) de métricas desde exporters.<br/>
+          <b>Node Exporter</b>: exporter para métricas de sistema Linux (CPU, memoria, disco, red).<br/>
+          <b>Grafana</b>: dashboards y visualizaciones. Se conecta a Prometheus como datasource.<br/>
+          <b>Alertmanager</b>: gestiona alertas generadas por Prometheus (deduplica, silencia, enruta a Slack/PagerDuty/email).
+          <pre># PromQL: consultas de métricas
+# CPU usage promedio últimos 5 minutos
+100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+# Memoria disponible en %
+(node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
+
+# Disco casi lleno (alerta cuando queda menos del 10%)
+(node_filesystem_avail_bytes{mountpoint="/"} /
+ node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
+
+# Docker compose básico para levantar el stack
+# prometheus + grafana + node_exporter</pre>
+          En Azure: <b>Azure Monitor</b> + <b>Log Analytics</b>. En AWS: <b>CloudWatch</b>. Ambos pueden integrarse con Grafana para dashboards unificados.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">protocolo</div>
+        <div class="card-title">SNMP & monitoreo de red</div>
+        <div class="card-desc">Simple Network Management Protocol para monitorear switches, routers, UPS y cualquier dispositivo de red.</div>
+        <div class="card-chips"><span class="chip">OID · MIB · community</span><span class="chip">v2c · v3 · traps</span></div>
+        <div class="card-detail">
+          SNMP tiene versiones: <b>v1/v2c</b> (sin cifrado, autenticación por community string), <b>v3</b> (autenticación y cifrado, usar siempre en producción).<br/><br/>
+          <b>OID</b>: identificador único de cada métrica. Ej: <code>1.3.6.1.2.1.1.3.0</code> = uptime del sistema.<br/>
+          <b>MIB</b>: archivo que describe los OIDs de un fabricante/dispositivo.<br/>
+          <b>Traps</b>: notificaciones que el dispositivo envía proactivamente cuando algo falla (no hay polling).
+          <pre># Consultar un dispositivo via SNMP
+# Instalar snmp tools
+apt install snmp snmp-mibs-downloader
+
+# Ver uptime de un switch
+snmpget -v2c -c public 192.168.1.1 1.3.6.1.2.1.1.3.0
+
+# Walk: explorar todos los OIDs disponibles
+snmpwalk -v2c -c public 192.168.1.1
+
+# Con SNMPv3 (más seguro)
+snmpget -v3 -u admin -l authPriv -a SHA -A "AuthPass" \
+  -x AES -X "PrivPass" 192.168.1.1 sysUpTime.0</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 10. BACKUP ══ -->
+  <section class="section t-green" id="s10">
+    <div class="sec-hdr">
+      <div class="sec-icon">💾</div>
+      <div>
+        <div class="sec-num">// 10</div>
+        <h2 class="sec-title">Backup & continuidad</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">estrategia</div>
+        <div class="card-title">RTO, RPO & regla 3-2-1</div>
+        <div class="card-desc">Los conceptos fundamentales de cualquier plan de continuidad del negocio.</div>
+        <div class="card-chips"><span class="chip">RTO · RPO · SLA</span><span class="chip">3-2-1 · DR · BCP</span></div>
+        <div class="card-detail">
+          <b>RPO</b> (Recovery Point Objective): cuánta pérdida de datos es aceptable. Si hacés backup cada 24hs, tu RPO es 24hs de datos.<br/>
+          <b>RTO</b> (Recovery Time Objective): cuánto tiempo puede estar el sistema fuera de servicio. Si el negocio tolera 4hs de downtime, tu RTO es 4hs.<br/><br/>
+          <b>Regla 3-2-1</b>:<br/>
+          — 3 copias de los datos<br/>
+          — en 2 tipos de medios distintos<br/>
+          — 1 copia offsite (en otra ubicación física o cloud)<br/><br/>
+          <b>BCP</b> (Business Continuity Plan): plan completo que incluye procesos, personal y comunicaciones, no solo la tecnología.<br/>
+          <b>DRP</b> (Disaster Recovery Plan): el subconjunto de BCP enfocado en recuperar sistemas IT.<br/><br/>
+          Un backup que nunca fue probado no es un backup real. Los <b>restore tests</b> periódicos son obligatorios.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">herramienta</div>
+        <div class="card-title">Veeam Backup</div>
+        <div class="card-desc">La solución de backup más usada para entornos virtualizados. Soporta VMware, Hyper-V y cloud.</div>
+        <div class="card-chips"><span class="chip">jobs · retention · dedup</span><span class="chip">instant recovery · replication</span></div>
+        <div class="card-detail">
+          Veeam trabaja con snapshots del hipervisor para hacer backups de VMs sin agente y sin downtime.<br/><br/>
+          Conceptos clave:<br/>
+          <b>Backup Job</b>: tarea programada que respalda VMs a un repositorio.<br/>
+          <b>Instant Recovery</b>: levantar una VM directamente desde el backup en minutos, sin esperar a restaurar los datos (los lee del repositorio mientras corre).<br/>
+          <b>Replication</b>: mantiene una réplica de la VM en otro sitio para DR.<br/>
+          <b>Sure Backup</b>: verifica automáticamente que los backups son recuperables arrancando la VM en un entorno aislado.<br/><br/>
+          Retención típica: backups diarios por 14 días, semanales por 4 semanas, mensuales por 12 meses. Ajustar según RPO del negocio.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">replicación</div>
+        <div class="card-title">Replicación & HA</div>
+        <div class="card-desc">Alta disponibilidad a nivel de datos y servicios. Diferencia entre backup, replicación y clustering.</div>
+        <div class="card-chips"><span class="chip">sync · async · failover</span><span class="chip">clustering · load balancing</span></div>
+        <div class="card-detail">
+          <b>Backup</b>: copia puntual en el tiempo, no continua. Sirve para recuperar datos borrados o corruptos.<br/>
+          <b>Replicación</b>: copia continua de datos a otro sitio. No protege de borrado accidental (se replica también el error).<br/>
+          <b>Clustering (HA)</b>: múltiples servidores activos al mismo tiempo, el servicio no cae si uno falla.<br/><br/>
+          Tecnologías de HA comunes:<br/>
+          <b>Windows Failover Cluster</b>: para SQL Server, File Server, Hyper-V en Windows.<br/>
+          <b>Always On Availability Groups</b>: HA nativa de SQL Server con replicación sincrónica.<br/>
+          <b>DFS-R</b>: replicación de file shares entre servidores Windows (Distributed File System Replication).
+          <pre># Verificar estado de un Windows Failover Cluster
+Get-Cluster
+Get-ClusterNode
+Get-ClusterGroup  # ver qué recursos están en qué nodo
+Test-Cluster      # validar configuración del cluster</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 11. ITSM ══ -->
+  <section class="section t-coral" id="s11">
+    <div class="sec-hdr">
+      <div class="sec-icon">🎫</div>
+      <div>
+        <div class="sec-num">// 11</div>
+        <h2 class="sec-title">ITSM & gestión de tickets</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">marco de trabajo</div>
+        <div class="card-title">ITIL fundamentos</div>
+        <div class="card-desc">El framework de mejores prácticas para gestión de servicios IT. Base conceptual de cualquier equipo de soporte maduro.</div>
+        <div class="card-chips"><span class="chip">incidente · problema</span><span class="chip">cambio · CMDB · CAB</span></div>
+        <div class="card-detail">
+          Los procesos ITIL más relevantes en soporte de infraestructura:<br/><br/>
+          <b>Gestión de incidentes</b>: restaurar el servicio lo más rápido posible. Foco en velocidad, no en causa raíz.<br/>
+          <b>Gestión de problemas</b>: encontrar y eliminar la causa raíz de incidentes recurrentes (RCA).<br/>
+          <b>Gestión de cambios</b>: proceso controlado para implementar cambios que minimica el riesgo (RFC → CAB → implementación → validación).<br/>
+          <b>CMDB</b> (Configuration Management Database): inventario de todos los CIs (Configuration Items) y sus relaciones.<br/>
+          <b>SLA</b> (Service Level Agreement): contrato de niveles de servicio. Define tiempos de respuesta y resolución por prioridad.<br/>
+          <pre># Prioridades típicas en ITSM:
+P1 - Crítico: sistema de producción caído, respuesta 15min, resolución 4hs
+P2 - Alto:    degradación significativa, respuesta 1hs, resolución 8hs
+P3 - Medio:   afecta a un usuario, respuesta 4hs, resolución 24hs
+P4 - Bajo:    consulta o mejora, respuesta 1 día, resolución 5 días</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">herramientas</div>
+        <div class="card-title">ServiceNow & Jira Service</div>
+        <div class="card-desc">Las plataformas de ticketing más usadas en empresas medianas y grandes.</div>
+        <div class="card-chips"><span class="chip">tickets · CMDB · workflows</span><span class="chip">SLA · reportes · KB</span></div>
+        <div class="card-detail">
+          <b>ServiceNow</b>: plataforma ITSM enterprise. Muy completa: gestión de incidentes, problemas, cambios, CMDB, catálogo de servicios, workflows automatizados.<br/><br/>
+          <b>Jira Service Management</b>: más ágil y fácil de configurar. Muy común en empresas que ya usan Jira para desarrollo.<br/><br/>
+          Lo que vas a usar en el día a día:<br/>
+          — Crear y asignar tickets con la prioridad correcta<br/>
+          — Actualizar el estado y agregar notas de progreso<br/>
+          — Escalar a Nivel 2 o al equipo correcto<br/>
+          — Registrar la solución en la Base de Conocimiento<br/>
+          — Cumplir los SLAs de respuesta y resolución<br/><br/>
+          Documentar bien cada ticket es tan importante como resolver el problema. El siguiente técnico que vea ese equipo va a depender de tus notas.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 12. RESOLUCIÓN ══ -->
+  <section class="section t-coral" id="s12">
+    <div class="sec-hdr">
+      <div class="sec-icon">🔍</div>
+      <div>
+        <div class="sec-num">// 12</div>
+        <h2 class="sec-title">Resolución de incidentes</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">metodología</div>
+        <div class="card-title">Triage & priorización</div>
+        <div class="card-desc">Evaluar rápidamente el impacto y urgencia de un incidente para actuar en el orden correcto.</div>
+        <div class="card-chips"><span class="chip">impacto · urgencia</span><span class="chip">matriz de prioridad</span></div>
+        <div class="card-detail">
+          Cuando llega un incidente, las primeras preguntas son:<br/>
+          ¿Cuántos usuarios están afectados?<br/>
+          ¿Qué sistema o servicio está caído?<br/>
+          ¿Es un sistema crítico de negocio?<br/>
+          ¿Tiene workaround disponible?<br/><br/>
+          La <b>prioridad = f(impacto, urgencia)</b>. Un usuario sin internet tiene urgencia alta pero bajo impacto. Un servidor de base de datos caído tiene ambos altos → P1.<br/><br/>
+          Al atender un incidente siempre comunicar: a) que lo estás atendiendo, b) cada avance relevante, c) la resolución con causa y acciones tomadas. La comunicación proactiva reduce la presión sobre el equipo.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">diagnóstico</div>
+        <div class="card-title">RCA & post-mortem</div>
+        <div class="card-desc">Análisis de causa raíz después de un incidente grave. Para que no vuelva a ocurrir.</div>
+        <div class="card-chips"><span class="chip">5 Whys · Ishikawa</span><span class="chip">blameless · action items</span></div>
+        <div class="card-detail">
+          Un <b>post-mortem blameless</b> no busca culpables, busca causas sistémicas y mejoras. Nadie se equivoca a propósito; los sistemas fallan por falta de controles.<br/><br/>
+          Estructura de un post-mortem:<br/>
+          1. <b>Resumen</b>: qué pasó, cuánto duró, impacto.<br/>
+          2. <b>Línea de tiempo</b>: secuencia exacta de eventos.<br/>
+          3. <b>Causa raíz</b>: los "5 Whys" para llegar a la causa real, no al síntoma.<br/>
+          4. <b>Action items</b>: tareas concretas con responsable y fecha para prevenir recurrencia.<br/><br/>
+          <b>Runbook</b>: documento paso a paso para responder a incidentes conocidos. Reduce el tiempo de resolución y permite que cualquier miembro del equipo atienda el incidente sin depender de un experto específico.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 13. DOCUMENTACIÓN ══ -->
+  <section class="section t-coral" id="s13">
+    <div class="sec-hdr">
+      <div class="sec-icon">📝</div>
+      <div>
+        <div class="sec-num">// 13</div>
+        <h2 class="sec-title">Documentación</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">base de conocimiento</div>
+        <div class="card-title">Knowledge Base & wiki</div>
+        <div class="card-desc">Centralizar el conocimiento del equipo. Si solo está en la cabeza de alguien, no existe.</div>
+        <div class="card-chips"><span class="chip">Confluence · Wiki</span><span class="chip">procedimientos · how-to</span></div>
+        <div class="card-detail">
+          Una buena KB tiene:<br/>
+          <b>Procedimientos operativos</b>: cómo hacer tareas recurrentes (ej: agregar un usuario al AD, crear una VM, restaurar un backup).<br/>
+          <b>Runbooks</b>: respuesta a incidentes conocidos (ej: "si el servidor X no responde, hacer A, B, C").<br/>
+          <b>Diagrama de infraestructura</b>: mapa actualizado de todos los sistemas, sus conexiones y dependencias.<br/>
+          <b>Inventario</b>: lista de servidores, IPs, licencias, contratos de soporte y fechas de vencimiento.<br/><br/>
+          La documentación tiene que ser parte del Definition of Done de cualquier tarea. Si implementaste algo nuevo y no lo documentaste, el trabajo no está terminado.<br/><br/>
+          Herramientas comunes: Confluence, Notion, SharePoint, Gitbook, MediaWiki, un repositorio Git con Markdown.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">diagramas</div>
+        <div class="card-title">Diagramas de infraestructura</div>
+        <div class="card-desc">Representar visualmente la arquitectura. Imprescindible para onboarding, auditorías y resolución de incidentes.</div>
+        <div class="card-chips"><span class="chip">draw.io · Visio · Lucidchart</span><span class="chip">C4 · network diagram</span></div>
+        <div class="card-detail">
+          Tipos de diagramas que vas a necesitar mantener:<br/><br/>
+          <b>Diagrama de red</b>: switches, routers, firewalls, VLANs, IPs. Muestra la conectividad física y lógica.<br/>
+          <b>Diagrama de infraestructura</b>: servidores, VMs, storage, sus relaciones y dependencias.<br/>
+          <b>Diagrama de servicios</b>: qué aplicaciones corren dónde y cómo se conectan entre sí.<br/><br/>
+          Herramientas gratuitas: <b>draw.io</b> (ahora diagrams.net) es la más usada. También <b>Excalidraw</b> para diagramas más informales.<br/><br/>
+          Los diagramas tienen que estar actualizados. Un diagrama viejo puede llevar a decisiones equivocadas durante un incidente. Cada cambio de infraestructura debe incluir actualización del diagrama.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 14. SCRIPTING ══ -->
+  <section class="section t-amber" id="s14">
+    <div class="sec-hdr">
+      <div class="sec-icon">⚙️</div>
+      <div>
+        <div class="sec-num">// 14</div>
+        <h2 class="sec-title">Scripting & automatización</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">windows</div>
+        <div class="card-title">PowerShell</div>
+        <div class="card-desc">El lenguaje de scripting de Microsoft. Imprescindible para automatizar tareas en Windows Server y Azure.</div>
+        <div class="card-chips"><span class="chip">cmdlets · pipeline · modules</span><span class="chip">WinRM · remoting</span></div>
+        <div class="card-detail">
+          PowerShell trabaja con <b>objetos</b>, no texto. Esto lo hace mucho más potente que CMD o bash para administrar sistemas Windows.
+          <pre># Script práctico: reporte de servidores con poco espacio en disco
+$servidores = @("SRV01","SRV02","SRV03","SRV04")
+
+$resultado = foreach ($server in $servidores) {
+    try {
+        $discos = Invoke-Command -ComputerName $server -ScriptBlock {
+            Get-PSDrive -PSProvider FileSystem |
+            Where-Object {$_.Free -lt 10GB} |
+            Select-Object Name,
+              @{N='LibreGB';E={[math]::Round($_.Free/1GB,2)}},
+              @{N='TotalGB';E={[math]::Round(($_.Used+$_.Free)/1GB,2)}}
+        }
+        [PSCustomObject]@{Servidor=$server; Discos=$discos}
+    } catch {
+        [PSCustomObject]@{Servidor=$server; Error=$_.Exception.Message}
+    }
+}
+
+$resultado | Export-Csv -Path ".\reporte-disco.csv" -NoTypeInformation
+Write-Host "Reporte generado en reporte-disco.csv"</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">linux</div>
+        <div class="card-title">Bash scripting</div>
+        <div class="card-desc">Automatizar tareas en Linux: mantenimiento, backups, monitoreo y gestión de servicios.</div>
+        <div class="card-chips"><span class="chip">cron · pipes · loops</span><span class="chip">variables · funciones</span></div>
+        <div class="card-detail">
+          <pre>#!/bin/bash
+# Script: backup diario de directorio con rotación de 7 días
+
+ORIGEN="/var/www/html"
+DESTINO="/backup"
+FECHA=$(date +%Y%m%d_%H%M%S)
+ARCHIVO="backup_web_$FECHA.tar.gz"
+DIAS_RETENCION=7
+LOG="/var/log/backup.log"
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Iniciando backup" >> $LOG
+
+# Crear backup comprimido
+if tar -czf "$DESTINO/$ARCHIVO" "$ORIGEN" 2>> $LOG; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Backup OK: $ARCHIVO" >> $LOG
+else
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - ERROR en backup" >> $LOG
+    exit 1
+fi
+
+# Eliminar backups viejos
+find "$DESTINO" -name "backup_web_*.tar.gz" \
+  -mtime +$DIAS_RETENCION -delete
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') - Limpieza completa" >> $LOG</pre>
+          Agregar al crontab: <code>0 2 * * * /scripts/backup.sh</code> → ejecutar a las 2am todos los días.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">python</div>
+        <div class="card-title">Python para infra</div>
+        <div class="card-desc">Python es el pegamento de la automatización de infraestructura. APIs, reportes, integraciones.</div>
+        <div class="card-chips"><span class="chip">boto3 · requests</span><span class="chip">paramiko · schedule</span></div>
+        <div class="card-detail">
+          Con Python podés interactuar con APIs de AWS (boto3), Azure (azure-sdk), hacer SSH programático (paramiko), y automatizar tareas que PowerShell y Bash no pueden fácilmente.
+          <pre">import boto3
+from datetime import datetime, timedelta
+
+# Listar instancias EC2 paradas hace más de 7 días
+ec2 = boto3.client('ec2', region_name='us-east-1')
+
+response = ec2.describe_instances(
+    Filters=[{'Name': 'instance-state-name', 'Values': ['stopped']}]
+)
+
+for reserv in response['Reservations']:
+    for inst in reserv['Instances']:
+        nombre = next(
+            (t['Value'] for t in inst.get('Tags',[]) if t['Key']=='Name'),
+            'Sin nombre'
+        )
+        stopped = inst.get('StateTransitionReason', '')
+        print(f"{inst['InstanceId']} | {nombre} | {stopped}")</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 15. IaC & DEVOPS ══ -->
+  <section class="section t-amber" id="s15">
+    <div class="sec-hdr">
+      <div class="sec-icon">🏗️</div>
+      <div>
+        <div class="sec-num">// 15</div>
+        <h2 class="sec-title">IaC & DevOps básico</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">infraestructura como código</div>
+        <div class="card-title">Terraform</div>
+        <div class="card-desc">Definir y versionar infraestructura cloud como código. Reproducible, auditable y automatizable.</div>
+        <div class="card-chips"><span class="chip">plan · apply · state</span><span class="chip">HCL · providers</span></div>
+        <div class="card-detail">
+          Terraform es declarativo: describís el estado deseado, no los pasos para llegar. Funciona con múltiples cloud providers (AWS, Azure, GCP, VMware).
+          <pre"># main.tf - crear una VM en Azure
+terraform {
+  required_providers {
+    azurerm = { source = "hashicorp/azurerm" }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_resource_group" "rg" {
+  name     = "rg-infra-prod"
+  location = "East US"
+}
+
+resource "azurerm_windows_virtual_machine" "vm" {
+  name                = "vm-servidor01"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  size                = "Standard_B2s"
+  admin_username      = "azureadmin"
+  admin_password      = var.admin_password
+  # ...
+}
+
+# Comandos:
+# terraform init    → descargar providers
+# terraform plan    → ver qué va a crear/cambiar
+# terraform apply   → aplicar cambios
+# terraform destroy → eliminar todo</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">configuración</div>
+        <div class="card-title">Ansible</div>
+        <div class="card-desc">Automatizar la configuración de servidores. Sin agente, usa SSH. Ideal para gestionar múltiples servidores a la vez.</div>
+        <div class="card-chips"><span class="chip">playbook · inventory</span><span class="chip">roles · idempotente</span></div>
+        <div class="card-detail">
+          Ansible es <b>agentless</b>: se conecta por SSH (Linux) o WinRM (Windows) y ejecuta tareas. Los <b>playbooks</b> son archivos YAML que describen qué configurar.
+          <pre"># inventory.ini
+[servidores_web]
+web01 ansible_host=192.168.1.10
+web02 ansible_host=192.168.1.11
+
+[servidores_db]
+db01  ansible_host=192.168.1.20
+
+# playbook.yml - instalar nginx en todos los servidores web
+---
+- name: Configurar servidores web
+  hosts: servidores_web
+  become: yes
+
+  tasks:
+    - name: Instalar nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Asegurarse que nginx está corriendo
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Copiar configuración
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify: reiniciar nginx
+
+  handlers:
+    - name: reiniciar nginx
+      service: name=nginx state=restarted
+
+# Ejecutar: ansible-playbook -i inventory.ini playbook.yml</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">contenedores</div>
+        <div class="card-title">Docker básico</div>
+        <div class="card-desc">Empaquetar aplicaciones en contenedores. Cada vez más presente en infraestructura moderna.</div>
+        <div class="card-chips"><span class="chip">imagen · contenedor</span><span class="chip">Dockerfile · compose</span></div>
+        <div class="card-detail">
+          Docker empaqueta una app y todas sus dependencias en una imagen portable. Los contenedores son instancias corriendo de esa imagen.
+          <pre># Comandos esenciales
+docker ps                      # contenedores corriendo
+docker ps -a                   # todos (incluye detenidos)
+docker images                  # imágenes locales
+docker pull nginx:latest        # descargar imagen
+docker run -d -p 80:80 --name web nginx  # correr contenedor
+docker exec -it web bash        # ingresar al contenedor
+docker logs web -f              # ver logs en tiempo real
+docker stop web && docker rm web # detener y eliminar
+
+# Docker Compose: levantar múltiples servicios
+# docker-compose.yml
+version: '3'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+  
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: secreto
+
+# docker compose up -d     → levantar todo
+# docker compose down      → bajar todo</pre>
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 16. CERTIFICACIONES ══ -->
+  <section class="section t-gray" id="s16">
+    <div class="sec-hdr">
+      <div class="sec-icon">🏅</div>
+      <div>
+        <div class="sec-num">// 16</div>
+        <h2 class="sec-title">Certificaciones</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">microsoft</div>
+        <div class="card-title">AZ-900 & AZ-104</div>
+        <div class="card-desc">Las certs de Azure más relevantes para el perfil. AZ-900 es la puerta de entrada, AZ-104 el nivel administrador.</div>
+        <div class="card-chips"><span class="chip">AZ-900: Fundamentals</span><span class="chip">AZ-104: Administrator</span></div>
+        <div class="card-detail">
+          <b>AZ-900 Azure Fundamentals</b>: conceptos de cloud, servicios de Azure, seguridad, precios. Sin prerequisitos técnicos. Ideal como primera cert.<br/><br/>
+          <b>AZ-104 Azure Administrator</b>: gestión de identidades, redes virtuales, storage, VMs, monitoreo. Require experiencia práctica con Azure. Es la cert objetivo para el rol de este roadmap.<br/><br/>
+          <b>SC-900</b>: Security, Compliance and Identity Fundamentals. Buena complementaria al AZ-900.<br/><br/>
+          Recursos de estudio gratuitos: Microsoft Learn (learn.microsoft.com), John Savill's YouTube channel, y los labs gratuitos en Microsoft Learn. El simulador de examen de MeasureUp es de los mejores.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">aws</div>
+        <div class="card-title">AWS Certified (SAA & CP)</div>
+        <div class="card-desc">Cloud Practitioner como base, Solutions Architect Associate para profundizar en AWS.</div>
+        <div class="card-chips"><span class="chip">CLF-C02: Practitioner</span><span class="chip">SAA-C03: Solutions Arch.</span></div>
+        <div class="card-detail">
+          <b>AWS Certified Cloud Practitioner (CLF-C02)</b>: equivalente al AZ-900. Conceptos de cloud, servicios principales, seguridad y costos en AWS.<br/><br/>
+          <b>AWS Certified Solutions Architect – Associate (SAA-C03)</b>: el nivel siguiente. Diseño de arquitecturas resilientes y eficientes en AWS. Muy valorado en el mercado.<br/><br/>
+          Recursos: AWS Skill Builder (gratis), Stephane Maarek en Udemy (muy completo), y los labs de AWS CloudQuest. El examen de práctica oficial de AWS es representativo del real.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">general</div>
+        <div class="card-title">CompTIA & ITIL</div>
+        <div class="card-desc">Certificaciones agnósticas de vendor muy reconocidas para perfiles de soporte e infraestructura.</div>
+        <div class="card-chips"><span class="chip">CompTIA A+ · Network+ · Security+</span><span class="chip">ITIL 4 Foundation</span></div>
+        <div class="card-detail">
+          <b>CompTIA A+</b>: hardware, SO, troubleshooting, redes y seguridad básica. La cert de entrada al mundo IT. Reconocida por el DOD en EEUU.<br/>
+          <b>CompTIA Network+</b>: redes en profundidad. Buena base antes del CCNA.<br/>
+          <b>CompTIA Security+</b>: seguridad, muy valorada para perfiles con foco en ciberseguridad.<br/><br/>
+          <b>ITIL 4 Foundation</b>: marco de trabajo de gestión de servicios IT. Muy pedida para roles de soporte en empresas grandes con procesos maduros.<br/><br/>
+          <b>VMware VCP-DCV</b>: certificación de VMware para administración de vSphere. Muy valorada si vas a trabajar con entornos virtualizados grandes.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 17. HIPERCONVERGENCIA ══ -->
+  <section class="section t-gray" id="s17">
+    <div class="sec-hdr">
+      <div class="sec-icon">🔲</div>
+      <div>
+        <div class="sec-num">// 17</div>
+        <h2 class="sec-title">Hiperconvergencia</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">concepto</div>
+        <div class="card-title">Infraestructura hiperconvergente</div>
+        <div class="card-desc">Combinar cómputo, storage y red en nodos estandarizados que se escalan horizontalmente.</div>
+        <div class="card-chips"><span class="chip">Nutanix · vSAN · Azure Stack</span><span class="chip">scale-out · SDS</span></div>
+        <div class="card-detail">
+          La infraestructura tradicional tiene servidores, SANs y switches separados. La HCI (Hyper-Converged Infrastructure) pone todo en nodos commodity que se pueden agregar linealmente.<br/><br/>
+          <b>Nutanix AOS</b>: la plataforma HCI más conocida. El hipervisor puede ser AHV (nativo), ESXi o Hyper-V. El storage es distribuido entre todos los nodos (Nutanix Distributed Storage Fabric).<br/>
+          <b>VMware vSAN</b>: storage distribuido nativo de VMware. Usa los discos locales de los hosts ESXi como storage compartido.<br/>
+          <b>Ventajas</b>: simplificación operativa, escalado lineal, eliminación de SAN dedicada.<br/>
+          <b>Desventajas</b>: vendor lock-in, costo inicial alto, menos flexibilidad que arquitectura tradicional para cargas muy específicas.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">red definida por software</div>
+        <div class="card-title">SD-WAN</div>
+        <div class="card-desc">Gestión centralizada de redes WAN con inteligencia de enrutamiento basada en software.</div>
+        <div class="card-chips"><span class="chip">overlay · underlay</span><span class="chip">Fortinet · Meraki · Velocloud</span></div>
+        <div class="card-detail">
+          SD-WAN abstrae el transporte subyacente (MPLS, internet, LTE) y gestiona el tráfico inteligentemente desde un controlador central.<br/><br/>
+          <b>Beneficios</b>: menor costo que MPLS puro, visibilidad centralizada, QoS automática, failover entre links, configuración desde la nube.<br/><br/>
+          Plataformas más comunes: Fortinet Secure SD-WAN (integrado con FortiGate), Cisco Meraki, VMware Velocloud, Palo Alto Prisma SD-WAN.<br/><br/>
+          Para el perfil de soporte junior, lo clave es entender el concepto y poder diagnosticar problemas de conectividad de sedes cuando hay SD-WAN.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 18. SEGURIDAD AVANZADA ══ -->
+  <section class="section t-gray" id="s18">
+    <div class="sec-hdr">
+      <div class="sec-icon">🔒</div>
+      <div>
+        <div class="sec-num">// 18</div>
+        <h2 class="sec-title">Seguridad avanzada</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">arquitectura</div>
+        <div class="card-title">Zero Trust</div>
+        <div class="card-desc">Nunca confiar, siempre verificar. El modelo de seguridad moderno que reemplaza al perímetro de red.</div>
+        <div class="card-chips"><span class="chip">identity-first · microseg.</span><span class="chip">ZTNA · Conditional Access</span></div>
+        <div class="card-detail">
+          El modelo tradicional asumía que todo dentro de la red era confiable. Zero Trust asume que la red ya está comprometida.<br/><br/>
+          Principios de Zero Trust:<br/>
+          — Verificar explícitamente: autenticar y autorizar en cada request (MFA, device compliance, location).<br/>
+          — Mínimo privilegio: acceso just-in-time y just-enough-access (JIT/JEA).<br/>
+          — Asumir brecha: segmentar la red para limitar el movimiento lateral del atacante.<br/><br/>
+          <b>ZTNA</b> (Zero Trust Network Access): reemplaza a la VPN tradicional. El acceso se otorga por aplicación, no por red. Ejemplos: Microsoft Entra Private Access, Cloudflare Access, Zscaler Private Access.<br/><br/>
+          En Microsoft: Conditional Access + Intune compliance + Entra ID forma una buena base de Zero Trust.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">detección</div>
+        <div class="card-title">SIEM & SOC</div>
+        <div class="card-desc">Centralizar logs y detectar amenazas. Microsoft Sentinel y Splunk son los más usados.</div>
+        <div class="card-chips"><span class="chip">Microsoft Sentinel · Splunk</span><span class="chip">KQL · reglas · alertas</span></div>
+        <div class="card-detail">
+          Un <b>SIEM</b> (Security Information and Event Management) recolecta logs de toda la infraestructura y aplica reglas para detectar comportamiento anómalo.<br/><br/>
+          <b>Microsoft Sentinel</b>: SIEM cloud-native integrado con Azure y Microsoft 365. Usa KQL (Kusto Query Language) para queries.<br/><br/>
+          <pre"># KQL básico en Microsoft Sentinel
+// Logins fallidos en las últimas 24 horas
+SecurityEvent
+| where TimeGenerated > ago(24h)
+| where EventID == 4625   // login fallido
+| summarize Intentos=count() by Account, Computer
+| where Intentos > 10     // posible fuerza bruta
+| sort by Intentos desc
+
+// Usuarios que iniciaron sesión desde países inusuales
+SigninLogs
+| where ResultType == 0   // exitoso
+| summarize by UserPrincipalName, Location</pre>
+          <b>SOC</b> (Security Operations Center): equipo que monitorea las alertas del SIEM 24/7 y responde a incidentes de seguridad.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+  <hr class="divider"/>
+
+  <!-- ══ 19. SOFT SKILLS & CARRERA ══ -->
+  <section class="section t-gray" id="s19">
+    <div class="sec-hdr">
+      <div class="sec-icon">🤝</div>
+      <div>
+        <div class="sec-num">// 19</div>
+        <h2 class="sec-title">Soft skills & carrera</h2>
+      </div>
+    </div>
+    <div class="cards">
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">comunicación</div>
+        <div class="card-title">Inglés técnico</div>
+        <div class="card-desc">La documentación técnica más importante está en inglés. Es una habilidad diferenciadora clave.</div>
+        <div class="card-chips"><span class="chip">docs · Stack Overflow</span><span class="chip">error messages · tickets</span></div>
+        <div class="card-detail">
+          El 90% de la documentación técnica, errores de sistema, foros de soporte y release notes están en inglés. No necesitás ser fluente para empezar, pero sí poder:<br/><br/>
+          — Leer y entender documentación técnica de Microsoft, AWS, VMware.<br/>
+          — Buscar errores en Google y Stack Overflow en inglés.<br/>
+          — Escribir tickets básicos en inglés si el cliente o el equipo lo requiere.<br/>
+          — Seguir tutoriales en video en inglés (la mayoría del contenido técnico de calidad está en inglés).<br/><br/>
+          Recursos para mejorar: Duolingo para base gramatical, ver documentación oficial de Microsoft en inglés en vez de traducida, ver tutoriales de YouTube en inglés (activar subtítulos al principio). La práctica diaria en el trabajo acelera mucho el progreso.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">carrera</div>
+        <div class="card-title">Caminos de crecimiento</div>
+        <div class="card-desc">Desde soporte técnico hay múltiples rutas de especialización. Elegir según intereses.</div>
+        <div class="card-chips"><span class="chip">Cloud Engineer · DevOps</span><span class="chip">SysAdmin · SRE · SecOps</span></div>
+        <div class="card-detail">
+          Caminos posibles desde este rol:<br/><br/>
+          <b>Cloud Engineer</b>: especialización en AWS/Azure. Diseñar, implementar y optimizar infraestructura cloud. Certs: AZ-104, SAA-C03, AZ-305 (Azure Solutions Architect).<br/><br/>
+          <b>DevOps/SRE</b>: automatización, CI/CD, IaC, observabilidad. Herramientas: Terraform, Ansible, Kubernetes, GitLab CI, monitoring. Requiere más conocimiento de desarrollo.<br/><br/>
+          <b>SysAdmin / Infra Senior</b>: profundizar en Windows Server, virtualización, storage, redes. El camino más directo desde el rol actual.<br/><br/>
+          <b>SecOps / Blue Team</b>: seguridad operacional, SIEM, respuesta a incidentes, hardening. Certs: CompTIA Security+, SC-200, CISSP a largo plazo.<br/><br/>
+          El primer año es de explorar. El segundo es de elegir dirección y profundizar. Las certificaciones dan estructura al aprendizaje, pero la experiencia práctica es lo que consigue el trabajo.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-tag">trabajo en equipo</div>
+        <div class="card-title">Comunicación & trabajo en equipo</div>
+        <div class="card-desc">Las habilidades técnicas te consiguen el trabajo. Las blandas te hacen crecer dentro de él.</div>
+        <div class="card-chips"><span class="chip">on-call · escalada</span><span class="chip">expectativas · empatía</span></div>
+        <div class="card-detail">
+          En soporte técnico las habilidades blandas son tan importantes como las técnicas porque trabajás directamente con usuarios frustrados y bajo presión.<br/><br/>
+          <b>Gestión de expectativas</b>: comunicar proactivamente el estado. "Estoy trabajando en eso, te aviso en 30 minutos" reduce la presión mucho más que silencio.<br/><br/>
+          <b>Escalada a tiempo</b>: saber cuándo escalas es tan importante como intentar resolver. Quedarse bloqueado sin pedir ayuda por orgullo tiene un costo alto.<br/><br/>
+          <b>On-call / guardia</b>: en infraestructura es común rotar en guardias de disponibilidad. Requiere disciplina para documentar runbooks y dejar el entorno en condiciones para quien sigue.<br/><br/>
+          <b>Trabajo bajo presión</b>: durante un incidente P1, la calma y el pensamiento sistemático valen más que la velocidad. Respirar, tomar notas, seguir el proceso.
+        </div>
+        <span class="card-toggle">ver más ↓</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+let total=0, opened=new Set();
+function toggle(card){
+  const d=card.querySelector('.card-detail');
+  const t=card.querySelector('.card-toggle');
+  const open=d.classList.toggle('open');
+  t.textContent=open?'ver menos ↑':'ver más ↓';
+  const idx=Array.from(document.querySelectorAll('.card')).indexOf(card);
+  open?opened.add(idx):opened.delete(idx);
+  updateProg();
+}
+function updateProg(){
+  const c=opened.size;
+  document.getElementById('prog-count').textContent=c;
+  const pct=total>0?Math.round(c/total*100):0;
+  document.getElementById('prog-fill').style.width=pct+'%';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  total=document.querySelectorAll('.card').length;
+  document.getElementById('prog-total').textContent=total;
+  const secs=document.querySelectorAll('.section');
+  const navs=document.querySelectorAll('.nav-item');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        navs.forEach(n=>n.classList.remove('active'));
+        const lnk=document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+        if(lnk)lnk.classList.add('active');
+      }
+    });
+  },{threshold:0.25});
+  secs.forEach(s=>obs.observe(s));
+});
+</script>
+</body>
+</html>

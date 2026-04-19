@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Guías de estudio — Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090d;
+  --surface:#0c1018;
+  --card:#111820;
+  --border:#1a2535;
+  --border-hi:#253448;
+  --text:#cdd8e8;
+  --text-muted:#4d6480;
+  --blue:#378add;
+  --teal:#1d9e75;
+  --amber:#ef9f27;
+  --coral:#d85a30;
+}
+html,body{min-height:100vh}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Barlow',sans-serif;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:100vh;
+  padding:40px 24px;
+}
+
+.hub-tag{
+  font-family:'Fira Code',monospace;
+  font-size:11px;letter-spacing:.14em;color:var(--text-muted);
+  text-align:center;margin-bottom:16px;
+}
+.hub-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:42px;font-weight:800;letter-spacing:.02em;
+  color:var(--text);text-align:center;margin-bottom:8px;
+}
+.hub-subtitle{
+  font-family:'Barlow',sans-serif;
+  font-size:15px;color:var(--text-muted);
+  text-align:center;margin-bottom:56px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:20px;
+  width:100%;max-width:780px;
+}
+
+.guide-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:32px 28px;
+  text-decoration:none;
+  color:inherit;
+  transition:transform .2s, border-color .2s;
+  display:flex;flex-direction:column;gap:14px;
+  position:relative;overflow:hidden;
+}
+.guide-card::before{
+  content:'';position:absolute;inset:0;
+  opacity:0;transition:opacity .2s;
+}
+.guide-card:hover{transform:translateY(-3px)}
+
+.guide-card.java{border-color:var(--border)}
+.guide-card.java:hover{border-color:var(--blue)}
+.guide-card.java::before{background:linear-gradient(135deg,#378add0a 0%,transparent 60%)}
+.guide-card.java:hover::before{opacity:1}
+.guide-card.java .card-accent{color:var(--blue)}
+.guide-card.java .card-bar{background:var(--blue)}
+
+.guide-card.infra{border-color:var(--border)}
+.guide-card.infra:hover{border-color:var(--teal)}
+.guide-card.infra::before{background:linear-gradient(135deg,#1d9e750a 0%,transparent 60%)}
+.guide-card.infra:hover::before{opacity:1}
+.guide-card.infra .card-accent{color:var(--teal)}
+.guide-card.infra .card-bar{background:var(--teal)}
+
+.card-bar{
+  height:3px;border-radius:2px;width:40px;
+}
+.card-tag{
+  font-family:'Fira Code',monospace;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+}
+.card-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:26px;font-weight:700;letter-spacing:.02em;
+  color:var(--text);line-height:1.1;
+}
+.card-desc{
+  font-size:13px;color:var(--text-muted);line-height:1.75;
+}
+.card-topics{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;
+}
+.topic{
+  font-family:'Fira Code',monospace;
+  font-size:10px;padding:3px 8px;border-radius:3px;
+  background:var(--border);color:var(--text-muted);
+}
+.card-cta{
+  margin-top:8px;
+  font-family:'Fira Code',monospace;
+  font-size:11px;letter-spacing:.05em;
+  display:flex;align-items:center;gap:6px;
+  transition:gap .15s;
+}
+.guide-card:hover .card-cta{gap:10px}
+
+.divider{
+  width:100%;max-width:780px;
+  border:none;border-top:1px solid var(--border);
+  margin:48px 0 32px;
+}
+.footer{
+  font-family:'Fira Code',monospace;
+  font-size:11px;color:var(--text-muted);
+  text-align:center;letter-spacing:.06em;
+}
+</style>
+</head>
+<body>
+
+<div class="hub-tag">// guías de estudio · it careers</div>
+<h1 class="hub-title">Elegí tu guía</h1>
+<p class="hub-subtitle">Dos caminos, un mismo objetivo: crecer en IT.</p>
+
+<div class="cards">
+
+  <a class="guide-card java" href="java-backend.html">
+    <div class="card-bar"></div>
+    <div class="card-tag card-accent">// backend · desarrollo</div>
+    <div class="card-title">Java Backend<br/>Developer</div>
+    <p class="card-desc">Fundamentos de Java, Spring Boot, bases de datos, APIs REST, testing, seguridad, cloud y arquitectura de microservicios.</p>
+    <div class="card-topics">
+      <span class="topic">Java · POO</span>
+      <span class="topic">Spring Boot</span>
+      <span class="topic">JPA · SQL</span>
+      <span class="topic">REST · APIs</span>
+      <span class="topic">Docker · CI/CD</span>
+      <span class="topic">Microservicios</span>
+    </div>
+    <div class="card-cta card-accent">Abrir guía →</div>
+  </a>
+
+  <a class="guide-card infra" href="it-support.html">
+    <div class="card-bar"></div>
+    <div class="card-tag card-accent">// infraestructura · soporte</div>
+    <div class="card-title">IT Infra &<br/>Soporte Técnico</div>
+    <p class="card-desc">Redes, Windows Server, Active Directory, virtualización con VMware y Proxmox, cloud Azure y AWS, monitoreo, backup y automatización.</p>
+    <div class="card-topics">
+      <span class="topic">Active Directory</span>
+      <span class="topic">VMware · Proxmox</span>
+      <span class="topic">Azure · AWS</span>
+      <span class="topic">Zabbix · Grafana</span>
+      <span class="topic">PowerShell</span>
+      <span class="topic">Backup · DR</span>
+    </div>
+    <div class="card-cta card-accent">Abrir guía →</div>
+  </a>
+
+</div>
+
+<hr class="divider"/>
+<p class="footer">// descargá los archivos HTML y abrí este hub para navegar entre guías</p>
+
+</body>
+</html>
